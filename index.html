@@ -1,2016 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarah & Michael - Wedding Invitation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
-        
-        :root {
-            --primary-color: #d4b08c;
-            --secondary-color: #f8f5f2;
-            --accent-color: #2c3e50;
-            --text-color: #333;
-            --light-text: #f8f5f2;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-color);
-            background-color: var(--secondary-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4, h5 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 500;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/api/placeholder/1200/800') center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--light-text);
-            position: relative;
-        }
-        
-        .hero-content {
-            z-index: 10;
-            animation: fadeIn 2s ease-in-out;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            letter-spacing: 3px;
-        }
-        
-        .hero h2 {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-        
-        .hero .date {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 32px;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Navigation */
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 20px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .nav.scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
-        }
-        
-        .nav.scrolled a {
-            color: var(--text-color);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-        
-        .mobile-nav-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Countdown Section */
-        .countdown-section {
-            padding: 100px 0;
-            text-align: center;
-            background-color: white;
-        }
-        
-        .countdown-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--accent-color);
-        }
-        
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-        
-        .countdown-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 120px;
-        }
-        
-        .countdown-num {
-            font-size: 3rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            background-color: var(--secondary-color);
-            width: 120px;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            margin-bottom: 10px;
-        }
-        
-        .countdown-label {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-            color: var(--accent-color);
-        }
-        
-        /* Story Section */
-        .story-section {
-            padding: 100px 0;
-            background-color: var(--secondary-color);
-        }
-        
-        .story-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--accent-color);
-        }
-        
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 2px;
-            background-color: var(--primary-color);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1px;
-        }
-        
-        .timeline-item {
-            padding: 20px 40px;
-            position: relative;
-            width: 50%;
-            animation: fadeIn 1s ease-in-out;
-        }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-date {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        /* Gallery Section */
-        .gallery-section {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .gallery-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--accent-color);
-        }
-        
-        .gallery-slider {
-            margin: 0 auto;
-            max-width: 1000px;
-        }
-        
-        .gallery-item {
-            padding: 10px;
-            height: 400px;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* RSVP Section */
-        .rsvp-section {
-            padding: 100px 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/600') center/cover no-repeat;
-            color: var(--light-text);
-            text-align: center;
-        }
-        
-        .rsvp-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        
-        .rsvp-section p {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            font-size: 1.1rem;
-        }
-        
-        .rsvp-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            color: var(--text-color);
-            text-align: left;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            height: 100px;
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .radio-option {
-            display: flex;
-            align-items: center;
-        }
-        
-        .radio-option input {
-            margin-right: 8px;
-            width: auto;
-        }
-        
-        /* Details Section */
-        .details-section {
-            padding: 100px 0;
-            background-color: var(--secondary-color);
-        }
-        
-        .details-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--accent-color);
-        }
-        
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .detail-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .detail-card i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-        
-        .detail-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-        .chart-container {
-    height: 300px;
-    margin: 30px 0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sarah & Michael – Wedding Invitation</title>
 
-.filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: var(--secondary-color);
-    border-radius: 8px;
-}
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+  <!-- jQuery & Slick Carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
-.filter-group label {
-    font-weight: 500;
-}
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-.filter-group select,
-.filter-group input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: 'Montserrat', sans-serif;
-}
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-#search-guests {
-    min-width: 250px;
-}
-
-.guest-report-btn {
-    margin-top: 20px;
-    display: block;
-}
-        /* Modern Animations & Effects */
-.floating-hearts {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 2;
-    overflow: hidden;
-}
-
-.heart {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    opacity: 0;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23d4b08c' d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-    animation: floating-heart 6s ease-in infinite;
-}
-
-@keyframes floating-heart {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0.5) rotate(0deg);
+  <style>
+    /* === ROOT VARIABLES & RESET === */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
+    :root {
+      --primary: #d4b08c;
+      --secondary: #f8f5f2;
+      --accent: #2c3e50;
+      --text: #333;
+      --light: #f8f5f2;
     }
-    25% {
-        opacity: 0.8;
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Montserrat',sans-serif; color:var(--text); background:var(--secondary); overflow-x:hidden; }
+
+    /* === HERO === */
+    .hero {
+      height:100vh;
+      background:
+        linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),
+        url('/api/placeholder/1200/800') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; color:var(--light); position:relative;
+      background-attachment:fixed;
     }
-    50% {
-        opacity: 0.4;
+    .hero h1 { font-family:'Cormorant Garamond',serif; font-size:3.5rem; letter-spacing:3px; margin-bottom:1rem; }
+    .hero h2 { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.8rem; margin-bottom:2rem; }
+    .hero .date { font-size:1.2rem; letter-spacing:2px; margin-bottom:2rem; }
+    .btn {
+      display:inline-block; padding:12px 32px; background:var(--primary); color:#fff;
+      border:none; border-radius:50px; text-transform:uppercase; letter-spacing:1px;
+      position:relative; overflow:hidden; z-index:1; cursor:pointer; transition:all .3s;
     }
-    75% {
-        opacity: 0.6;
+    .btn::before {
+      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background:rgba(255,255,255,.2); transition:all .3s; z-index:-1;
     }
-    100% {
-        opacity: 0;
-        transform: translateY(-800px) scale(1.2) rotate(360deg);
+    .btn:hover::before { left:0; }
+    .btn:hover { transform:translateY(-3px); box-shadow:0 10px 20px rgba(0,0,0,.2); }
+
+    /* === NAV === */
+    nav { position:fixed; top:0; left:0; width:100%; padding:20px 0; z-index:100; transition:all .3s; }
+    nav.scrolled { background:rgba(255,255,255,.95); box-shadow:0 2px 10px rgba(0,0,0,.1); padding:10px 0; }
+    .nav-container { max-width:1200px; margin:0 auto; padding:0 15px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:#fff; text-decoration:none; }
+    nav.scrolled .logo { color:var(--text); }
+    .nav-links { list-style:none; display:flex; }
+    .nav-links li { margin-left:30px; }
+    .nav-links a {
+      text-decoration:none; color:#fff; font-weight:500; font-size:.9rem;
+      text-transform:uppercase; letter-spacing:1px; transition:color .3s;
     }
-}
+    .nav-links a:hover { color:var(--primary); }
+    nav.scrolled .nav-links a { color:var(--text); }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; font-size:1.5rem; color:#fff; cursor:pointer; }
+    @media(max-width:768px) {
+      .mobile-nav-toggle { display:block; z-index:102; }
+      .nav-links {
+        position:fixed; top:0; right:-100%; width:70%; height:100vh;
+        background:#fff; flex-direction:column; align-items:center; justify-content:center;
+        transition:right .5s; z-index:101;
+      }
+      .nav-links.active { right:0; }
+      .nav-links li { margin:20px 0; }
+      .nav-links a { color:var(--text); font-size:1.2rem; }
+    }
 
-/* Parallax Effect for Hero Section */
-.hero {
-    background-attachment: fixed;
-}
+    /* === SECTIONS === */
+    section { padding:100px 0; }
+    .countdown-section { background:#fff; text-align:center; }
+    .countdown { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
+    .countdown-item { text-align:center; cursor:pointer; transition:transform .3s; }
+    .countdown-item:hover { transform:scale(1.1); }
+    .countdown-num {
+      font-size:3rem; font-weight:600; color:var(--primary);
+      background:var(--secondary); width:120px; height:120px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:10px; box-shadow:0 10px 20px rgba(0,0,0,.05);
+      position:relative; overflow:hidden;
+    }
+    .countdown-num::before {
+      content:''; position:absolute; top:-100%; left:0;
+      width:100%; height:100%; background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);
+      animation:shine 5s infinite;
+    }
+    @keyframes shine { 0%{top:-100%}20%{top:100%}100%{top:100%} }
+    .countdown-label { text-transform:uppercase; letter-spacing:2px; font-size:.9rem; color:var(--accent); }
 
-/* Animated Elements */
-.animated-element {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s ease;
-}
+    /* === TIMELINE === */
+    .story-section { background:var(--secondary); }
+    .timeline { position:relative; max-width:800px; margin:0 auto; }
+    .timeline::after {
+      content:''; position:absolute; top:0; bottom:0; left:50%; width:2px;
+      background:var(--primary); transform:translateX(-50%);
+    }
+    .timeline-item {
+      width:50%; padding:20px 40px; position:relative; animation:fadeIn 1s ease-in-out;
+    }
+    .timeline-item:nth-child(even) { left:50%; }
+    .timeline-item:nth-child(odd)  { left:0; }
+    .timeline-content {
+      background:#fff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,.1);
+      cursor:pointer; transition:transform .3s, box-shadow .3s;
+      perspective:1000px;
+    }
+    .timeline-content:hover {
+      transform:translateY(-5px) rotateY(15deg);
+      box-shadow:0 10px 20px rgba(0,0,0,.1);
+    }
+    .timeline-date {
+      display:inline-block; background:var(--primary); color:#fff;
+      padding:5px 15px; border-radius:20px; font-weight:600; margin-bottom:15px;
+      position:relative;
+    }
+    .timeline-date::after {
+      content:'→'; margin-left:10px; animation:bounce 1s infinite;
+    }
+    @keyframes bounce {0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
 
-.animated-element.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+    /* === TIMELINE MODAL === */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1000; }
+    .modal-content { background:#fff; margin:5% auto; padding:30px; border-radius:10px; max-width:800px; animation:slideIn .5s ease; }
+    .close-modal { position:absolute; top:15px; right:15px; font-size:1.5rem; color:var(--text); cursor:pointer; }
+    .timeline-story-slider .timeline-slide { text-align:center; }
+    .timeline-slide img { width:100%; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,.1); margin-bottom:15px; }
+    .timeline-caption { font-style:italic; color:var(--text); }
 
-/* Stylish button hover effects */
-.btn {
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-}
+    /* === GALLERY === */
+    .gallery-section { background:#fff; text-align:center; }
+    .gallery-slider .gallery-item { padding:10px; height:400px; }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,.1); }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: all 0.3s;
-    z-index: -1;
-}
+    /* === DETAILS === */
+    .details-section { background:var(--secondary); }
+    .details-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; }
+    .detail-card {
+      background:#fff; padding:30px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,.1);
+      text-align:center; perspective:1000px; transition:transform .6s;
+    }
+    .detail-card:hover { transform:translateY(-10px) rotateY(5deg); }
+    .detail-card i { font-size:2.5rem; color:var(--primary); margin-bottom:20px; }
+    .detail-card h3 { font-family:'Cormorant Garamond',serif; color:var(--accent); margin-bottom:15px; }
 
-.btn:hover::before {
-    left: 0;
-}
+    /* === RSVP === */
+    .rsvp-section {
+      background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),url('/api/placeholder/1200/600') center/cover no-repeat;
+      color:var(--light); text-align:center;
+    }
+    .rsvp-form { background:#fff; padding:40px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.2); max-width:600px; margin:0 auto; text-align:left; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; margin-bottom:8px; font-weight:500; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width:100%; padding:12px; border:1px solid #ddd; border-radius:5px; font-family:'Montserrat',sans-serif;
+    }
+    .radio-group { display:flex; gap:20px; }
+    .radio-option input { margin-right:8px; }
 
-/* 3D Card Effect */
-.detail-card {
-    perspective: 1000px;
-    transition: transform 0.6s;
-}
-
-.detail-card:hover {
-    transform: translateY(-10px) rotateY(5deg);
-}
-
-/* Interactive countdown items */
-.countdown-item {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.countdown-item:hover {
-    transform: scale(1.1);
-}
-
-.countdown-num {
-    position: relative;
-    overflow: hidden;
-}
-
-.countdown-num::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: -100%;
-    left: 0;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
-    animation: shine 5s infinite;
-}
-
-@keyframes shine {
-    0% { top: -100%; }
-    20% { top: 100%; }
-    100% { top: 100%; }
-}
-
-/* Cursor effect */
-.custom-cursor {
-    position: fixed;
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: all 0.1s ease;
-    z-index: 9999;
-    opacity: 0.7;
-    display: none;
-}
-
-.custom-cursor.active {
-    display: block;
-}
-
-.custom-cursor-dot {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background-color: var(--primary-color);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: all 0.15s ease-out;
-    z-index: 10000;
-    display: none;
-}
-
-.custom-cursor-dot.active {
-    display: block;
-}
-
-@media (max-width: 768px) {
+    /* === ADMIN DASHBOARD === */
+    .admin-dashboard { background:var(--secondary); padding:100px 0; }
+    .stats-grid { display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-bottom:30px; }
+    .stat-gauge { width:150px; text-align:center; }
+    .stat-gauge svg { width:100px; height:100px; transform:rotate(-90deg); }
+    .gauge-bg { fill:none; stroke:#eee; stroke-width:10; }
+    .gauge-fill {
+      fill:none; stroke-width:10; stroke-linecap:round;
+      stroke-dasharray:283; stroke-dashoffset:283;
+      transition:stroke-dashoffset 1.2s ease-out;
+    }
+    #gauge-attending { stroke:#4CAF50; }
+    #gauge-not-attending { stroke:#F44336; }
+    .stat-gauge text {
+      font-size:14px; fill:var(--text); transform:rotate(90deg);
+    }
     .filters {
-        flex-direction: column;
-        gap: 15px;
+      display:flex; justify-content:space-between; background:var(--secondary);
+      padding:15px; border-radius:8px; margin-bottom:20px; flex-wrap:wrap; gap:15px;
     }
-}
+    .filter-group { display:flex; align-items:center; gap:10px; }
+    .filter-group input, .filter-group select { padding:8px 12px; border:1px solid #ddd; border-radius:5px; }
+    .guest-list-table { width:100%; border-collapse:collapse; }
+    .guest-list-table th, .guest-list-table td { padding:12px; text-align:left; border-bottom:1px solid #eee; }
+    .status-attending { color:#4CAF50; font-weight:500; }
+    .status-not-attending { color:#F44336; font-weight:500; }
 
-/* Add this to the admin section styles */
-.admin-section {
-    transition: all 0.3s ease;
-}
+    /* === FOOTER === */
+    .footer { background:var(--accent); padding:50px 0; text-align:center; color:var(--light); }
+    .footer h2 { margin-bottom:20px; font-size:2rem; }
+    .social-links { display:flex; justify-content:center; gap:20px; margin-bottom:30px; }
+    .social-links a { color:var(--light); font-size:1.5rem; transition:all .3s; }
+    .social-links a:hover { color:var(--primary); transform:translateY(-3px); }
+    .copyright { opacity:.8; font-size:.9rem; }
 
-.admin-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-        
-        /* Footer */
-        .footer {
-            padding: 50px 0;
-            background-color: var(--accent-color);
-            color: var(--light-text);
-            text-align: center;
-        }
-        
-        .footer h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .social-links a {
-            color: var(--light-text);
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-            animation: slideIn 0.5s ease-in-out;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-        
-        .modal h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            text-align: center;
-        }
-        
-        .modal p {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .success-icon {
-            font-size: 4rem;
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 20px;
-            display: block;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Admin Dashboard */
-        .admin-dashboard {
-            padding: 100px 0;
-            background-color: var(--secondary-color);
-        }
-        
-        .admin-dashboard h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: var(--accent-color);
-        }
-        
-        .admin-section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        /* Timeline Modal Styles */
-.timeline-modal-content {
-    max-width: 800px;
-    padding: 40px;
-}
-
-.timeline-content {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.timeline-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.timeline-story-slider {
-    margin-top: 30px;
-}
-
-.timeline-slide {
-    padding: 10px;
-}
-
-.timeline-slide img {
-    width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-}
-
-.timeline-caption {
-    text-align: center;
-    font-style: italic;
-    margin-top: 10px;
-    color: var(--text-color);
-}
-
-/* Enhance timeline styles */
-.timeline-date {
-    position: relative;
-    display: inline-block;
-    font-weight: 600;
-    color: white;
-    background-color: var(--primary-color);
-    padding: 5px 15px;
-    border-radius: 20px;
-    margin-bottom: 15px;
-}
-
-.timeline-date::after {
-    content: '→';
-    margin-left: 10px;
-    animation: bounce 1s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(3px); }
-}
-        
-        .admin-section h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background-color: var(--secondary-color);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-card h4 {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-        
-        .stat-num {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .guest-list-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        .guest-list-table th,
-        .guest-list-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .guest-list-table th {
-            background-color: var(--secondary-color);
-            font-weight: 600;
-        }
-        
-        .status-attending {
-            color: #4CAF50;
-            font-weight: 500;
-        }
-        
-        .status-not-attending {
-            color: #F44336;
-            font-weight: 500;
-        }
-        
-        .login-form {
-            max-width: 400px;
-            margin: 100px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--accent-color);
-        }
-        
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.5rem;
-            }
-            
-            .countdown-item {
-                min-width: 90px;
-            }
-            
-            .countdown-num {
-                font-size: 2.5rem;
-                width: 90px;
-                height: 90px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: 70%;
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.5s ease;
-                z-index: 101;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 20px 0;
-            }
-            
-            .nav-links a {
-                color: var(--text-color);
-                font-size: 1.2rem;
-            }
-            
-            .mobile-nav-toggle {
-                display: block;
-                z-index: 102;
-            }
-            
-            .mobile-nav-toggle.active {
-                color: var(--text-color);
-            }
-            
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-            }
-            
-            .countdown {
-                flex-wrap: wrap;
-            }
-            
-            .countdown-item {
-                margin-bottom: 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .detail-card {
-                padding: 20px;
-            }
-            
-            .rsvp-form {
-                padding: 20px;
-            }
-            
-            .modal-content {
-                padding: 20px;
-                margin: 20% auto;
-            }
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-
+    /* === MODAL ANIMS === */
+    @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+    @keyframes slideIn { from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1} }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="container nav-container">
-            <a href="#" class="logo">S&M</a>
-            <button class="mobile-nav-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#countdown">Countdown</a></li>
-                <li><a href="#story">Our Story</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#details">Details</a></li>
-                <li><a href="#rsvp">RSVP</a></li>
-            </ul>
-        </div>
-    </nav>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="logo">S&amp;M</a>
+      <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#countdown">Countdown</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#details">Details</a></li>
+        <li><a href="#rsvp">RSVP</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h2>WE ARE GETTING MARRIED</h2>
-            <h1>Sarah & Michael</h1>
-            <p class="date">AUGUST 15, 2025</p>
-            <a href="#rsvp" class="btn">RSVP Now</a>
-        </div>
-    </section>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h2>WE ARE GETTING MARRIED</h2>
+      <h1>Sarah &amp; Michael</h1>
+      <p class="date">AUGUST 15, 2025</p>
+      <button class="btn" onclick="location.href='#rsvp'">RSVP Now</button>
+    </div>
+  </section>
 
-    <!-- Countdown Section -->
-    <section class="countdown-section" id="countdown">
-        <div class="container">
-            <h2>Counting Down to Our Big Day</h2>
-            <div class="countdown">
-                <div class="countdown-item">
-                    <div class="countdown-num" id="days">00</div>
-                    <div class="countdown-label">Days</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-num" id="hours">00</div>
-                    <div class="countdown-label">Hours</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-num" id="minutes">00</div>
-                    <div class="countdown-label">Minutes</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-num" id="seconds">00</div>
-                    <div class="countdown-label">Seconds</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- COUNTDOWN -->
+  <section class="countdown-section" id="countdown">
+    <h2>Counting Down to Our Big Day</h2>
+    <div class="countdown">
+      <div class="countdown-item"><div class="countdown-num" id="days">00</div><div class="countdown-label">Days</div></div>
+      <div class="countdown-item"><div class="countdown-num" id="hours">00</div><div class="countdown-label">Hours</div></div>
+      <div class="countdown-item"><div class="countdown-num" id="minutes">00</div><div class="countdown-label">Minutes</div></div>
+      <div class="countdown-item"><div class="countdown-num" id="seconds">00</div><div class="countdown-label">Seconds</div></div>
+    </div>
+  </section>
 
-    <!-- Story Section -->
-    <section class="story-section" id="story">
-        <div class="container">
-            <h2>Our Love Story</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">June 12, 2020</div>
-                        <h3>The First Meeting</h3>
-                        <p>We met at a mutual friend's birthday party. Sarah spilled her drink on Michael's shoes, and the rest is history.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">September 5, 2020</div>
-                        <h3>First Date</h3>
-                        <p>Michael took Sarah to his favorite art gallery followed by dinner at a rooftop restaurant overlooking the city.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">February 14, 2022</div>
-                        <h3>Moving In Together</h3>
-                        <p>We decided to take the next step in our relationship and found our first apartment together.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">December 24, 2023</div>
-                        <h3>The Proposal</h3>
-                        <p>During a snowy evening walk through the park, Michael got down on one knee and proposed under the Christmas lights. She said yes!</p>
-                    </div>
-                </div>
-            </div>
+  <!-- OUR STORY -->
+  <section class="story-section" id="story">
+    <h2>Our Love Story</h2>
+    <div class="timeline">
+      <div class="timeline-item" data-key="firstMeeting">
+        <div class="timeline-content">
+          <div class="timeline-date">June 12, 2020</div>
+          <h3>The First Meeting</h3>
+          <p>We met at a mutual friend’s birthday party. Sarah spilled her drink on Michael’s shoes, and the rest is history.</p>
         </div>
-    </section>
+      </div>
+      <div class="timeline-item" data-key="firstDate">
+        <div class="timeline-content">
+          <div class="timeline-date">September 5, 2020</div>
+          <h3>First Date</h3>
+          <p>Michael took Sarah to his favorite art gallery followed by dinner at a rooftop restaurant overlooking the city.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-key="movingIn">
+        <div class="timeline-content">
+          <div class="timeline-date">February 14, 2022</div>
+          <h3>Moving In Together</h3>
+          <p>We decided to take the next step in our relationship and found our first apartment together.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-key="proposal">
+        <div class="timeline-content">
+          <div class="timeline-date">December 24, 2023</div>
+          <h3>The Proposal</h3>
+          <p>During a snowy evening walk through the park, Michael got down on one knee and proposed under the Christmas lights. She said yes!</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Gallery Section -->
-    <section class="gallery-section" id="gallery">
-        <div class="container">
-            <h2>Our Favorite Moments</h2>
-            <div class="gallery-slider">
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael at the beach">
-                </div>
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael hiking">
-                </div>
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael on vacation">
-                </div>
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael at a concert">
-                </div>
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael during the holidays">
-                </div>
-                <div class="gallery-item">
-                    <img src="/api/placeholder/600/400" alt="Sarah and Michael engagement photo">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Details Section -->
-    <section class="details-section" id="details">
-        <div class="container">
-            <h2>Wedding Details</h2>
-            <div class="details-grid">
-                <div class="detail-card">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h3>When</h3>
-                    <p>August 15, 2025</p>
-                    <p>Ceremony: 2:00 PM</p>
-                    <p>Reception: 4:00 PM</p>
-                </div>
-                <div class="detail-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Where</h3>
-                    <p>The Grand Hall</p>
-                    <p>123 Wedding Avenue</p>
-                    <p>San Francisco, CA 94103</p>
-                </div>
-                <div class="detail-card">
-                    <i class="fas fa-glass-cheers"></i>
-                    <h3>Dress Code</h3>
-                    <p>Semi-Formal Attire</p>
-                    <p>Outdoor ceremony, indoor reception</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- RSVP Section -->
-    <section class="rsvp-section" id="rsvp">
-        <div class="container">
-            <h2>RSVP</h2>
-            <p>We would be delighted to have you join us on our special day. Please let us know if you can make it by July 15, 2025.</p>
-            <div class="rsvp-form">
-                <form id="rsvp-form">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Will you be attending?</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="attending-yes" name="attending" value="yes" required>
-                                <label for="attending-yes">Joyfully Accept</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="attending-no" name="attending" value="no">
-                                <label for="attending-no">Regretfully Decline</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" id="guests-group">
-                        <label for="guests">Number of Guests (Including yourself)</label>
-                        <select id="guests" name="guests">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message to the Couple (Optional)</label>
-                        <textarea id="message" name="message"></textarea>
-                    </div>
-                    <button type="submit" class="btn">Submit RSVP</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container">
-            <h2>Sarah & Michael</h2>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
-            <p class="copyright">© 2025 Sarah & Michael | All Rights Reserved</p>
-        </div>
-    </footer>
-    <!-- Timeline Story Modal -->
-<div class="modal" id="timeline-modal">
+  <!-- TIMELINE MODAL -->
+  <div class="modal" id="timeline-modal">
     <div class="modal-content timeline-modal-content">
-        <span class="close-modal">&times;</span>
-        <h3 id="timeline-modal-title">Our First Date</h3>
-        <div class="timeline-story-slider">
-            <div class="timeline-slide">
-                <img src="/api/placeholder/800/500" alt="Timeline event photo">
-                <p class="timeline-caption">Our first date at the art gallery. Michael was so nervous he spent 20 minutes talking about a painting that wasn't even part of the exhibition!</p>
-            </div>
-            <div class="timeline-slide">
-                <img src="/api/placeholder/800/500" alt="Timeline event photo">
-                <p class="timeline-caption">Dinner at the rooftop restaurant afterward. Sarah loved the view almost as much as the company.</p>
-            </div>
-            <div class="timeline-slide">
-                <img src="/api/placeholder/800/500" alt="Timeline event photo">
-                <p class="timeline-caption">Walking home under the stars, we knew this was just the beginning of something special.</p>
-            </div>
-        </div>
+      <span class="close-modal">&times;</span>
+      <h3 id="timeline-modal-title"></h3>
+      <div class="timeline-story-slider"></div>
     </div>
-</div>
+  </div>
 
-    <!-- Success Modal -->
-    <div class="modal" id="success-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <i class="fas fa-check-circle success-icon"></i>
-            <h3>Thank You!</h3>
-            <p>Your RSVP has been successfully submitted. We look forward to celebrating with you!</p>
-            <button class="btn" id="close-modal-btn">Close</button>
+  <!-- GALLERY -->
+  <section class="gallery-section" id="gallery">
+    <h2>Our Favorite Moments</h2>
+    <div class="gallery-slider">
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+      <div class="gallery-item"><img src="/api/placeholder/600/400" alt=""></div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="details-section" id="details">
+    <h2>Wedding Details</h2>
+    <div class="details-grid">
+      <div class="detail-card">
+        <i class="fas fa-calendar-alt"></i>
+        <h3>When</h3>
+        <p>August 15, 2025<br>Ceremony: 2:00 PM<br>Reception: 4:00 PM</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Where</h3>
+        <p>The Grand Hall<br>123 Wedding Avenue<br>San Francisco, CA 94103</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-glass-cheers"></i>
+        <h3>Dress Code</h3>
+        <p>Semi-Formal Attire<br>Outdoor ceremony, indoor reception</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="rsvp-section" id="rsvp">
+    <h2>RSVP</h2>
+    <p>Please let us know if you can make it by July 15, 2025.</p>
+    <div class="rsvp-form">
+      <form id="rsvp-form">
+        <div class="form-group"><label for="name">Full Name</label><input id="name" required></div>
+        <div class="form-group"><label for="email">Email</label><input id="email" type="email" required></div>
+        <div class="form-group">
+          <label>Will you be attending?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="attending" value="yes" required> Joyfully Accept</label>
+            <label><input type="radio" name="attending" value="no"> Regretfully Decline</label>
+          </div>
         </div>
+        <div class="form-group" id="guests-group">
+          <label for="guests">Number of Guests</label>
+          <select id="guests"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+        </div>
+        <div class="form-group"><label for="message">Message (optional)</label><textarea id="message"></textarea></div>
+        <button type="submit" class="btn">Submit RSVP</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="admin-dashboard" class="admin-dashboard" style="display:none;">
+    <h2>Admin Dashboard</h2>
+    <div class="stats-grid">
+      <div class="stat-gauge">
+        <svg viewBox="0 0 100 100">
+          <circle class="gauge-bg" cx="50" cy="50" r="45"/>
+          <circle class="gauge-fill" id="gauge-attending" cx="50" cy="50" r="45"/>
+          <text x="50" y="55" text-anchor="middle" id="gauge-attending-text">0%</text>
+        </svg>
+        <h4>Attending</h4>
+      </div>
+      <div class="stat-gauge">
+        <svg viewBox="0 0 100 100">
+          <circle class="gauge-bg" cx="50" cy="50" r="45"/>
+          <circle class="gauge-fill" id="gauge-not-attending" cx="50" cy="50" r="45"/>
+          <text x="50" y="55" text-anchor="middle" id="gauge-not-attending-text">0%</text>
+        </svg>
+        <h4>Not Attending</h4>
+      </div>
     </div>
 
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" class="admin-dashboard" style="display: none;">
-        <div class="container">
-            <h2>Admin Dashboard</h2>
-            
-            <div class="admin-section">
-                <h3>RSVP Statistics</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>Total RSVPs</h4>
-                        <div class="stat-num" id="total-rsvps">0</div>
-                    </div>
-                    <div class="chart-container">
-    <canvas id="rsvp-chart"></canvas>
-</div>
-<div class="filters">
-    <div class="filter-group">
-        <label>Filter by Date:</label>
+    <div class="filters">
+      <div class="filter-group">
+        <label for="date-filter">Filter by Date:</label>
         <select id="date-filter">
-            <option value="all">All Time</option>
-            <option value="week">Last Week</option>
-            <option value="month">Last Month</option>
+          <option value="all">All Time</option>
+          <option value="week">Last Week</option>
+          <option value="month">Last Month</option>
         </select>
-    </div>
-    <div class="filter-group">
-        <label>Search:</label>
-        <input type="text" id="search-guests" placeholder="Search by name or email">
-    </div>
-</div>
-                    <div class="stat-card">
-                        <h4>Attending</h4>
-                        <div class="stat-num" id="total-attending">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Not Attending</h4>
-                        <div class="stat-num" id="total-not-attending">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Guests</h4>
-                        <div class="stat-num" id="total-guests">0</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="admin-section">
-                <h3>Guest List</h3>
-                <table class="guest-list-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Guests</th>
-                            <th>Message</th>
-                            <th>Date Submitted</th>
-                        </tr>
-                    </thead>
-                    <tbody id="guest-list-body">
-                        <!-- Guest data will be populated dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+      </div>
+      <div class="filter-group">
+        <label for="search-guests">Search:</label>
+        <input id="search-guests" placeholder="Name or Email">
+      </div>
     </div>
 
-    <!-- Admin Login Modal -->
-    <div class="modal" id="admin-login-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Admin Login</h3>
-            <form id="admin-login-form" class="login-form">
-                <div class="form-group">
-                    <label for="admin-password">Password</label>
-                    <input type="password" id="admin-password" required>
-                </div>
-                <button type="submit" class="btn">Login</button>
-            </form>
-        </div>
+    <table class="guest-list-table">
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Status</th><th>Guests</th><th>Message</th><th>Date</th></tr>
+      </thead>
+      <tbody id="guest-list-body"></tbody>
+    </table>
+  </div>
+
+  <!-- ADMIN LOGIN -->
+  <div class="modal" id="admin-login-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Admin Login</h3>
+      <form id="admin-login-form" class="login-form">
+        <div class="form-group"><label for="admin-password">Password</label><input id="admin-password" type="password" required></div>
+        <button type="submit" class="btn">Login</button>
+      </form>
     </div>
+  </div>
 
-    <script>
-        // Initialize Supabase Client
-        const supabaseUrl = 'YOUR_SUPABASE_URL'; // Replace with your Supabase URL
-        const supabaseKey = 'YOUR_SUPABASE_KEY'; // Replace with your Supabase anon key
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  <!-- FOOTER -->
+  <footer class="footer">
+    <h2>Sarah &amp; Michael</h2>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p>© 2025 Sarah &amp; Michael | All Rights Reserved</p>
+  </footer>
 
-        // DOM Elements
-        const countdownElement = {
-            days: document.getElementById('days'),
-            hours: document.getElementById('hours'),
-            minutes: document.getElementById('minutes'),
-            seconds: document.getElementById('seconds')
-        };
-        
-        const nav = document.querySelector('.nav');
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const rsvpForm = document.getElementById('rsvp-form');
-        const successModal = document.getElementById('success-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const closeModalX = document.querySelector('.close-modal');
-        const attendingRadioYes = document.getElementById('attending-yes');
-        const attendingRadioNo = document.getElementById('attending-no');
-        const guestsGroup = document.getElementById('guests-group');
-        const adminLoginModal = document.getElementById('admin-login-modal');
-        const adminLoginForm = document.getElementById('admin-login-form');
-        const adminDashboard = document.getElementById('admin-dashboard');
+  <!-- OPTIONAL CUSTOM CURSOR & HEARTS (if still desired) -->
+  <div class="floating-hearts" id="floating-hearts"></div>
+  <div class="custom-cursor" id="custom-cursor"></div>
+  <div class="custom-cursor-dot" id="custom-cursor-dot"></div>
 
-        // Wedding Date - August 15, 2025
-        const weddingDate = new Date('August 15, 2025 14:00:00').getTime();
+  <script>
+  // — INIT SUPABASE —
+  const supabase = supabase.createClient('YOUR_SUPABASE_URL','YOUR_SUPABASE_KEY');
 
-        // Update Countdown
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-            
-            // Time calculations
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Display countdown
-            countdownElement.days.textContent = days.toString().padStart(2, '0');
-            countdownElement.hours.textContent = hours.toString().padStart(2, '0');
-            countdownElement.minutes.textContent = minutes.toString().padStart(2, '0');
-            countdownElement.seconds.textContent = seconds.toString().padStart(2, '0');
-            
-            // If countdown is over
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownElement.days.textContent = '00';
-                countdownElement.hours.textContent = '00';
-                countdownElement.minutes.textContent = '00';
-                countdownElement.seconds.textContent = '00';
-            }
-        }
+  // — COUNTDOWN LOGIC —
+  const weddingDate = new Date('August 15, 2025 14:00:00').getTime();
+  function updateCountdown(){
+    const now = Date.now(), d = weddingDate - now;
+    const days = Math.floor(d/864e5),
+          hrs  = Math.floor(d%864e5/36e5),
+          mins = Math.floor(d%36e5/6e4),
+          secs = Math.floor(d%6e4/1e3);
+    document.getElementById('days').textContent    = String(days).padStart(2,'0');
+    document.getElementById('hours').textContent   = String(hrs).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(mins).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown(); setInterval(updateCountdown,1000);
 
-        // Initialize countdown
-        updateCountdown();
-        const countdownInterval = setInterval(updateCountdown, 1000);
+  // — STICKY NAV & MOBILE TOGGLE —
+  const navEl = document.querySelector('nav'),
+        toggle= document.querySelector('.mobile-nav-toggle'),
+        links = document.querySelector('.nav-links');
+  window.addEventListener('scroll',()=>{ navEl.classList.toggle('scrolled', window.scrollY>100); });
+  toggle.addEventListener('click',()=>{
+    links.classList.toggle('active');
+    toggle.innerHTML = links.classList.contains('active')?'<i class="fas fa-times"></i>':'<i class="fas fa-bars"></i>';
+  });
 
-        // Sticky Navigation
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
+  // — GALLERY SLIDER —
+  $('.gallery-slider').slick({
+    dots:true, arrows:true, infinite:true, speed:500,
+    slidesToShow:3, adaptiveHeight:true,
+    responsive:[
+      {breakpoint:992,settings:{slidesToShow:2}},
+      {breakpoint:576,settings:{slidesToShow:1}}
+    ]
+  });
 
-        // Mobile Navigation
-        mobileNavToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileNavToggle.classList.toggle('active');
-            
-            if (mobileNavToggle.classList.contains('active')) {
-                mobileNavToggle.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-
-        // Close mobile nav when clicking nav links
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                mobileNavToggle.classList.remove('active');
-                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
-
-        // Initialize Gallery Slider
-        $(document).ready(function(){
-            $('.gallery-slider').slick({
-                dots: true,
-                arrows: true,
-                infinite: true,
-                speed: 500,
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 3000,
-                responsive: [
-                    {
-                        breakpoint: 992,
-                        settings: {
-                            slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 576,
-                        settings: {
-                            slidesToShow: 1
-                        }
-                    }
-                ]
-            });
-        });
-
-        // Show/Hide Guests Field based on attendance
-        attendingRadioYes.addEventListener('change', () => {
-            guestsGroup.style.display = 'block';
-        });
-        
-        attendingRadioNo.addEventListener('change', () => {
-            guestsGroup.style.display = 'none';
-        });
-
-        // RSVP Form Submit
-        rsvpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                attending: document.querySelector('input[name="attending"]:checked').value === 'yes',
-                guests: attendingRadioYes.checked ? parseInt(document.getElementById('guests').value) : 0,
-                message: document.getElementById('message').value,
-                created_at: new Date()
-            };
-            
-            try {
-                // Insert into Supabase
-                const { data, error } = await supabase
-                    .from('rsvps')
-                    .insert([formData]);
-                
-                if (error) throw error;
-                
-                // Show success modal
-                successModal.style.display = 'block';
-                
-                // Reset form
-                rsvpForm.reset();
-                
-            } catch (error) {
-                console.error('Error submitting RSVP:', error);
-                alert('There was an error submitting your RSVP. Please try again.');
-            }
-        });
-
-        // Close Modal
-        closeModalBtn.addEventListener('click', () => {
-            successModal.style.display = 'none';
-        });
-        
-        closeModalX.addEventListener('click', () => {
-            successModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === successModal) {
-                successModal.style.display = 'none';
-            }
-            if (e.target === adminLoginModal) {
-                adminLoginModal.style.display = 'none';
-            }
-        });
-
-        // Admin Area - Secret URL
-        // Check if current URL has admin hash
-        if (window.location.hash === '#admin-login') {
-            adminLoginModal.style.display = 'block';
-        }
-
-        // Admin Login
-        adminLoginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const password = document.getElementById('admin-password').value;
-            
-            // Simple password check (in real app, use proper authentication)
-            if (password === 'wedding2025') {
-                adminLoginModal.style.display = 'none';
-                adminDashboard.style.display = 'block';
-                window.location.hash = 'admin';
-                loadAdminData();
-            } else {
-                alert('Incorrect password');
-            }
-        });
-
-        // Load Admin Dashboard Data
-      // Load Admin Dashboard Data
-async function loadAdminData() {
-  try {
-    // Get all RSVPs
-    const { data, error } = await supabase
-      .from('rsvps')
-      .select('*')
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-
-    // Calculate statistics
-    const totalRsvps = data.length;
-    const attending = data.filter(rsvp => rsvp.attending);
-    const notAttending = data.filter(rsvp => !rsvp.attending);
-    const totalAttending = attending.length;
-    const totalNotAttending = notAttending.length;
-    const totalGuests = attending.reduce((sum, rsvp) => sum + rsvp.guests, 0);
-
-    // Update statistics on page
-    document.getElementById('total-rsvps').textContent = totalRsvps;
-    document.getElementById('total-attending').textContent = totalAttending;
-    document.getElementById('total-not-attending').textContent = totalNotAttending;
-    document.getElementById('total-guests').textContent = totalGuests;
-
-    // Populate guest list table
-    const guestListBody = document.getElementById('guest-list-body');
-    guestListBody.innerHTML = '';
-    data.forEach(rsvp => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${rsvp.name}</td>
-        <td>${rsvp.email}</td>
-        <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
-          ${rsvp.attending ? 'Attending' : 'Not Attending'}
-        </td>
-        <td>${rsvp.guests}</td>
-        <td>${rsvp.message || '-'}</td>
-        <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
-      `;
-      guestListBody.appendChild(row);
-    });
-
-    // —— INSERT CHART + FILTER BLOCK HERE —— //
-
-    // Create Charts
-    const ctx = document.getElementById('rsvp-chart').getContext('2d');
-    if (window.rsvpChart) window.rsvpChart.destroy();
-    window.rsvpChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Attending', 'Not Attending'],
-        datasets: [{
-          data: [totalAttending, totalNotAttending],
-          backgroundColor: ['#4CAF50', '#F44336'],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom' },
-          title: {
-            display: true,
-            text: 'RSVP Status',
-            font: { size: 16 }
-          }
-        }
-      }
-    });
-
-    // Setup filters
-    document.getElementById('date-filter')
-      .addEventListener('change', filterGuests);
-    document.getElementById('search-guests')
-      .addEventListener('input', filterGuests);
-
-    function filterGuests() {
-      const dateFilter = document.getElementById('date-filter').value;
-      const searchText = document.getElementById('search-guests')
-        .value.toLowerCase();
-
-      const filteredData = data.filter(rsvp => {
-        const matchesSearch = rsvp.name.toLowerCase().includes(searchText) ||
-                              rsvp.email.toLowerCase().includes(searchText);
-        const rsvpDate = new Date(rsvp.created_at);
-        const now = new Date();
-        let matchesDate = true;
-        if (dateFilter === 'week') {
-          matchesDate = rsvpDate >= new Date(now - 7*24*60*60*1000);
-        } else if (dateFilter === 'month') {
-          matchesDate = rsvpDate >= new Date(now - 30*24*60*60*1000);
-        }
-        return matchesSearch && matchesDate;
-      });
-      updateGuestTable(filteredData);
+  // — TIMELINE STORIES DATA —
+  const timelineStories = {
+    firstMeeting: {
+      title:'The First Meeting',
+      slides:[ 
+        { image:'/api/placeholder/800/500', caption:'Sarah arriving at the party…' },
+        { image:'/api/placeholder/800/500', caption:'The infamous drink spill…' },
+        { image:'/api/placeholder/800/500', caption:'Laughing about the accident…' }
+      ]
+    },
+    firstDate: {
+      title:'First Date', slides:[
+        { image:'/api/placeholder/800/500', caption:'Our first date at the art gallery…' },
+        { image:'/api/placeholder/800/500', caption:'Dinner at the rooftop restaurant…' },
+        { image:'/api/placeholder/800/500', caption:'Walking home under the stars…' }
+      ]
+    },
+    movingIn: {
+      title:'Moving In Together', slides:[
+        { image:'/api/placeholder/800/500', caption:'Moving day! So many boxes…' },
+        { image:'/api/placeholder/800/500', caption:'Takeout pizza on the floor…' },
+        { image:'/api/placeholder/800/500', caption:'Making the apartment our home…' }
+      ]
+    },
+    proposal: {
+      title:'The Proposal', slides:[
+        { image:'/api/placeholder/800/500', caption:'Michael planned this for months…' },
+        { image:'/api/placeholder/800/500', caption:'The proposal under Christmas lights…' },
+        { image:'/api/placeholder/800/500', caption:'Celebrating our engagement!' }
+      ]
     }
+  };
 
-    function updateGuestTable(guests) {
-      const tbody = document.getElementById('guest-list-body');
+  // — TIMELINE MODAL HANDLER —
+  const timelineModal       = document.getElementById('timeline-modal'),
+        timelineModalTitle  = document.getElementById('timeline-modal-title'),
+        storySlider         = document.querySelector('.timeline-story-slider');
+
+  document.querySelectorAll('.timeline-item[data-key]').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const key = item.dataset.key, story = timelineStories[key];
+      if(!story) return;
+      timelineModalTitle.textContent = story.title;
+      storySlider.innerHTML = story.slides.map(s=>`
+        <div class="timeline-slide">
+          <img src="${s.image}" alt="">
+          <p class="timeline-caption">${s.caption}</p>
+        </div>
+      `).join('');
+      $(storySlider).slick({
+        dots:true, arrows:true, infinite:true, speed:500,
+        slidesToShow:1, adaptiveHeight:true
+      });
+      timelineModal.style.display = 'block';
+    });
+  });
+
+  timelineModal.querySelector('.close-modal').addEventListener('click',()=>{
+    timelineModal.style.display='none';
+    $(storySlider).slick('unslick');
+  });
+  window.addEventListener('click',e=>{
+    if(e.target===timelineModal){
+      timelineModal.style.display='none';
+      $(storySlider).slick('unslick');
+    }
+  });
+
+  // — RSVP FORM SUBMIT —
+  const rsvpForm=document.getElementById('rsvp-form'),
+        successModal=document.getElementById('success-modal'),
+        closeBtn=document.querySelector('#success-modal .close-modal')||successModal.querySelector('.btn');
+
+  rsvpForm.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const formData = {
+      name:document.getElementById('name').value,
+      email:document.getElementById('email').value,
+      attending:document.querySelector('input[name="attending"]:checked').value==='yes',
+      guests: (document.querySelector('input[name="attending"]:checked').value==='yes')
+        ?parseInt(document.getElementById('guests').value):0,
+      message:document.getElementById('message').value,
+      created_at:new Date().toISOString()
+    };
+    try {
+      let { error } = await supabase.from('rsvps').insert([formData]);
+      if(error) throw error;
+      successModal.style.display='block';
+      rsvpForm.reset();
+    } catch(err){
+      alert('Error submitting RSVP. Please try again.');
+      console.error(err);
+    }
+  });
+  closeBtn.addEventListener('click',()=>successModal.style.display='none');
+
+  // — ADMIN LOGIN & DASHBOARD —
+  const adminLoginModal=document.getElementById('admin-login-modal'),
+        adminLoginForm=document.getElementById('admin-login-form'),
+        adminDashboard=document.getElementById('admin-dashboard');
+
+  // hash "#admin-login" opens login
+  if(window.location.hash===' #admin-login') adminLoginModal.style.display='block';
+
+  adminLoginForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const pwd=document.getElementById('admin-password').value;
+    if(pwd==='wedding2025'){
+      adminLoginModal.style.display='none';
+      adminDashboard.style.display='block';
+      window.location.hash='admin';
+      loadAdminData();
+    } else alert('Incorrect password');
+  });
+
+  // — LOAD ADMIN DATA + GAUGES + FILTERS —
+  async function loadAdminData(){
+    try {
+      let { data, error } = await supabase
+        .from('rsvps')
+        .select('*')
+        .order('created_at',{ascending:false});
+      if(error) throw error;
+
+      const total = data.length;
+      const attendArr = data.filter(r=>r.attending);
+      const declineArr= data.filter(r=>!r.attending);
+      const countA = attendArr.length, countN=declineArr.length;
+      const pctA = Math.round(100*countA/total),
+            pctN = Math.round(100*countN/total);
+
+      // animate gauges
+      function animateGauge(id,pct,textId){
+        const circle = document.getElementById(id),
+              txt    = document.getElementById(textId),
+              offset = 283 - (283*pct/100);
+        circle.getBoundingClientRect();
+        circle.style.strokeDashoffset = offset;
+        txt.textContent = pct + '%';
+      }
+      animateGauge('gauge-attending',pctA,'gauge-attending-text');
+      animateGauge('gauge-not-attending',pctN,'gauge-not-attending-text');
+
+      // confetti on milestone
+      if(pctA>=80){
+        confetti({particleCount:100, spread:70, origin:{y:0.6}});
+      }
+
+      // populate guest table
+      const tbody=document.getElementById('guest-list-body');
       tbody.innerHTML = '';
-      guests.forEach(rsvp => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${rsvp.name}</td>
-          <td>${rsvp.email}</td>
-          <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
-            ${rsvp.attending ? 'Attending' : 'Not Attending'}
+      data.forEach(r=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`
+          <td>${r.name}</td>
+          <td>${r.email}</td>
+          <td class="${r.attending?'status-attending':'status-not-attending'}">
+            ${r.attending?'Attending':'Not Attending'}
           </td>
-          <td>${rsvp.guests}</td>
-          <td>${rsvp.message || '-'}</td>
-          <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
+          <td>${r.guests}</td>
+          <td>${r.message||'-'}</td>
+          <td>${new Date(r.created_at).toLocaleDateString()}</td>
         `;
         tbody.appendChild(tr);
       });
-    }
-    // —— END CHART + FILTER BLOCK —— //
 
-  } catch (error) {
-    console.error('Error loading admin data:', error);
-    alert('There was an error loading the admin data. Please try again.');
+      // filters
+      document.getElementById('date-filter').onchange = filterGuests;
+      document.getElementById('search-guests').oninput = filterGuests;
+
+      function filterGuests(){
+        const df = document.getElementById('date-filter').value;
+        const txt = document.getElementById('search-guests').value.toLowerCase();
+        const now = Date.now();
+        const filtered = data.filter(r=>{
+          const nameMatch = r.name.toLowerCase().includes(txt);
+          const emailMatch= r.email.toLowerCase().includes(txt);
+          let dateMatch=true;
+          const d = new Date(r.created_at).getTime();
+          if(df==='week')  dateMatch = d >= now - 7*864e5;
+          if(df==='month') dateMatch = d >= now -30*864e5;
+          return (nameMatch||emailMatch) && dateMatch;
+        });
+        tbody.innerHTML='';
+        filtered.forEach(r=>{
+          const tr=document.createElement('tr');
+          tr.innerHTML=`
+            <td>${r.name}</td><td>${r.email}</td>
+            <td class="${r.attending?'status-attending':'status-not-attending'}">
+              ${r.attending?'Attending':'Not Attending'}
+            </td>
+            <td>${r.guests}</td><td>${r.message||'-'}</td>
+            <td>${new Date(r.created_at).toLocaleDateString()}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    } catch(err){
+      console.error('Error loading admin data:',err);
+      alert('Could not load admin data.');
+    }
   }
-}
 
-
-        // Handle hash changes for admin area
-        window.addEventListener('hashchange', () => {
-            if (window.location.hash === '#admin-login') {
-                adminLoginModal.style.display = 'block';
-            } else if (window.location.hash === '#admin') {
-                // Only show if already logged in
-                if (adminDashboard.style.display === 'block') {
-                    loadAdminData();
-                }
-            }
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#admin-login' || targetId === '#admin') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 70,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Setup Supabase Database on first load
-        async function setupDatabase() {
-            try {
-                // Check if table exists by trying to select from it
-                const { error } = await supabase
-                    .from('rsvps')
-                    .select('id')
-                    .limit(1);
-                
-                // If no error, table exists
-                if (!error) return;
-                
-                // If error is not about missing table, throw it
-                if (!error.message.includes('does not exist')) {
-                    throw error;
-                }
-                
-                // Create table (this would actually be done in Supabase dashboard)
-                console.log('Note: In a real app, you would create tables in the Supabase dashboard');
-                console.log('For this demo, please create a table named "rsvps" with the following columns:');
-                console.log('- id: uuid (primary key)');
-                console.log('- name: text');
-                console.log('- email: text');
-                console.log('- attending: boolean');
-                console.log('- guests: integer');
-                console.log('- message: text');
-                console.log('- created_at: timestamp with timezone');
-                
-            } catch (error) {
-                console.error('Database setup check failed:', error);
-            }
-        }
-
-        // Run setup on page load
-        setupDatabase();
-        // Timeline Story Modal Functionality
-const timelineModal = document.getElementById('timeline-modal');
-const timelineModalTitle = document.getElementById('timeline-modal-title');
-const timelineItems = document.querySelectorAll('.timeline-content');
-
-// Timeline stories data
-const timelineStories = {
-    "firstMeeting": {
-        title: "The First Meeting",
-        date: "June 12, 2020",
-        slides: [
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Sarah arriving at the party, not knowing her life was about to change forever."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "The infamous drink spill that started it all. Michael's shoes were never the same!"
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Laughing about the accident later that night. Sometimes the best relationships start with a little mess."
-            }
-        ]
-    },
-    "firstDate": {
-        title: "First Date",
-        date: "September 5, 2020",
-        slides: [
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Our first date at the art gallery. Michael was so nervous he spent 20 minutes talking about a painting that wasn't even part of the exhibition!"
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Dinner at the rooftop restaurant afterward. Sarah loved the view almost as much as the company."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Walking home under the stars, we knew this was just the beginning of something special."
-            }
-        ]
-    },
-    "movingIn": {
-        title: "Moving In Together",
-        date: "February 14, 2022",
-        slides: [
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Moving day! So many boxes, so much excitement."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Our first dinner in our new place - takeout pizza on the floor because we couldn't find the table."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Making the apartment our home over the next few weeks was a labor of love."
-            }
-        ]
-    },
-    "proposal": {
-        title: "The Proposal",
-        date: "December 24, 2023",
-        slides: [
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Michael had been planning this moment for months, carrying the ring everywhere for weeks waiting for the perfect moment."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "The proposal! Sarah was completely surprised when Michael got down on one knee under the Christmas lights."
-            },
-            {
-                image: "/api/placeholder/800/500",
-                caption: "Celebrating our engagement. We couldn't wait to call our families with the good news!"
-            }
-        ]
-    }
-};
-
-// Setup timeline items to be clickable
-timelineItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-        let storyKey;
-        switch(index) {
-            case 0:
-                storyKey = "firstMeeting";
-                break;
-            case 1:
-                storyKey = "firstDate";
-                break;
-            case 2:
-                storyKey = "movingIn";
-                break;
-            case 3:
-                storyKey = "proposal";
-                break;
-        }
-        
-        const story = timelineStories[storyKey];
-        
-        // Set modal title
-        timelineModalTitle.textContent = story.title;
-        
-        // Generate slides HTML
-        let slidesHTML = '';
-        story.slides.forEach(slide => {
-            slidesHTML += `
-                <div class="timeline-slide">
-                    <img src="${slide.image}" alt="Timeline event photo">
-                    <p class="timeline-caption">${slide.caption}</p>
-                </div>
-            `;
-        });
-        
-        // Set slides HTML
-        document.querySelector('.timeline-story-slider').innerHTML = slidesHTML;
-        
-        // Initialize slider
-        $('.timeline-story-slider').slick({
-            dots: true,
-            arrows: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            adaptiveHeight: true
-        });
-        
-        // Show modal
-        timelineModal.style.display = 'block';
+  // handle anchor smooth scroll & hash
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const tgt = document.querySelector(a.getAttribute('href'));
+      if(tgt) window.scrollTo({top:tgt.offsetTop-70,behavior:'smooth'});
     });
-});
-
-// Close modal when clicking X
-timelineModal.querySelector('.close-modal').addEventListener('click', () => {
-    timelineModal.style.display = 'none';
-    
-    // Destroy slider to prevent issues when reopening
-    $('.timeline-story-slider').slick('unslick');
-});
-
-// Close modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (e.target === timelineModal) {
-        timelineModal.style.display = 'none';
-        
-        // Destroy slider to prevent issues when reopening
-        $('.timeline-story-slider').slick('unslick');
-    }
-});
-        // Create floating hearts effect
-function createFloatingHearts() {
-    const container = document.getElementById('floating-hearts');
-    
-    function createHeart() {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        
-        // Random position, size, and animation duration
-        const startPos = Math.random() * 100;
-        const size = Math.random() * 20 + 15;
-        const duration = Math.random() * 4 + 4;
-        
-        heart.style.left = startPos + 'vw';
-        heart.style.bottom = '-50px';
-        heart.style.width = size + 'px';
-        heart.style.height = size + 'px';
-        heart.style.animationDuration = duration + 's';
-        
-        container.appendChild(heart);
-        
-        // Remove heart after animation ends
-        setTimeout(() => {
-            heart.remove();
-        }, duration * 1000);
-    }
-    
-    // Create hearts periodically
-    setInterval(createHeart, 500);
-}
-
-// Initialize floating hearts on special sections
-function initFloatingHearts() {
-    // Only show hearts on story and rsvp sections
-    document.querySelector('#story').addEventListener('mouseenter', () => {
-        createFloatingHearts();
-    });
-    
-    document.querySelector('#rsvp').addEventListener('mouseenter', () => {
-        createFloatingHearts();
-    });
-}
-
-// Custom cursor effect
-function initCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    const cursorDot = document.getElementById('custom-cursor-dot');
-    
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.top = e.clientY + 'px';
-        cursor.style.left = e.clientX + 'px';
-        
-        cursorDot.style.top = e.clientY + 'px';
-        cursorDot.style.left = e.clientX + 'px';
-    });
-    
-    // Only show custom cursor on desktop
-    if (window.innerWidth > 992) {
-        cursor.classList.add('active');
-        cursorDot.classList.add('active');
-        
-        // Cursor interaction effects
-        const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .timeline-content, .gallery-item');
-        
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                cursor.style.borderColor = 'rgba(212, 176, 140, 0.5)';
-                cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            });
-            
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursor.style.borderColor = 'var(--primary-color)';
-                cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-        });
-    }
-}
-
-// Animate elements when they come into view
-function initScrollAnimations() {
-    // Add animated-element class to these elements
-    const animatedElements = document.querySelectorAll('.timeline-item, .detail-card, .rsvp-form, .gallery-item, .countdown-item');
-    
-    animatedElements.forEach(el => {
-        el.classList.add('animated-element');
-    });
-    
-    // Check if element is in viewport
-    function isInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
-            rect.bottom >= 0
-        );
-    }
-    
-    // Check elements on scroll
-    function checkElements() {
-        const elements = document.querySelectorAll('.animated-element');
-        elements.forEach(el => {
-            if (isInViewport(el)) {
-                el.classList.add('visible');
-            }
-        });
-    }
-    
-    // Listen for scroll events
-    window.addEventListener('scroll', checkElements);
-    
-    // Check elements on page load
-    checkElements();
-}
-
-// Initialize all modern effects
-document.addEventListener('DOMContentLoaded', () => {
-    initFloatingHearts();
-    initCustomCursor();
-    initScrollAnimations();
-});
-
-// Interactive Countdown Animation
-document.querySelectorAll('.countdown-item').forEach(item => {
-    item.addEventListener('click', () => {
-        item.classList.add('pulse');
-        setTimeout(() => {
-            item.classList.remove('pulse');
-        }, 1000);
-    });
-});
-
-// Add a 3D flip effect when hovering over timeline items
-document.querySelectorAll('.timeline-content').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-        item.style.transform = 'rotateY(15deg)';
-    });
-    
-    item.addEventListener('mouseleave', () => {
-        item.style.transform = 'rotateY(0)';
-    });
-});
-    </script>
-    <div class="floating-hearts" id="floating-hearts"></div>
-<div class="custom-cursor" id="custom-cursor"></div>
-<div class="custom-cursor-dot" id="custom-cursor-dot"></div>
+  });
+  </script>
 </body>
 </html>
