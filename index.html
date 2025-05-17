@@ -2,175 +2,251 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sarah & Michael | E-Invitation</title>
+  <title>Sarah & Michael • E-Invite</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- Supabase JS -->
+  <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
+    /* ───── VARIABLES ───── */
     :root {
       --primary: #d4b08c;
       --bg: #f8f5f2;
-      --text: #2c3e50;
+      --txt: #2c3e50;
+      --light: #fff;
+      --transition: 0.4s ease;
     }
-    * { box-sizing: border-box; margin:0; padding:0 }
-    body { font-family:sans-serif; background:var(--bg); color:var(--text); }
-    nav { background:var(--primary); padding:1rem; display:flex; gap:1rem; }
-    nav a { color:#fff; text-decoration:none; }
-    section { padding:2rem; text-align:center }
-    #countdown span { display:inline-block; min-width:2.5rem; font-size:2rem }
-    .timeline { display:flex; justify-content:center; gap:1rem; margin-top:1rem }
-    .timeline div { background:#fff; padding:1rem; border-radius:5px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.1) }
-    /* slideshow modal */
-    #slideshow-modal {
-      display:none;
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.8);
-      justify-content:center; align-items:center;
+    * { box-sizing:border-box; margin:0; padding:0 }
+    body { font-family: sans-serif; color: var(--txt); background: var(--bg); overflow-x:hidden; }
+    a { color: inherit; text-decoration:none }
+    h1,h2 { margin-bottom:0.5em }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top:0; width:100%; padding:1em;
+      background:rgba(255,255,255,0.85); display:flex; justify-content:center; gap:2em;
+      box-shadow:0 2px 8px rgba(0,0,0,.1); z-index:1000;
     }
-    #slideshow-modal img { max-width:80%; max-height:80%; }
-    #slideshow-modal button {
-      position:absolute; background:transparent; border:none; color:#fff; font-size:2rem;
-      top:1rem; cursor:pointer;
+    nav a:hover { color: var(--primary) }
+
+    /* ───── HERO ───── */
+    #hero {
+      height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
+      background: url('https://source.unsplash.com/1600x900/?wedding') center/cover fixed;
+      position:relative; color: var(--light);
     }
-    #modal-prev { left:1rem }
-    #modal-next { right:1rem }
-    #modal-close { right:1rem; top:1rem }
-    /* RSVP form */
-    form { display:inline-block; text-align:left; background:#fff; padding:1rem; border-radius:5px; box-shadow:0 2px 6px rgba(0,0,0,.1) }
-    form input, form button { display:block; width:100%; margin:0.5rem 0; padding:0.5rem }
-    #rsvp-msg { margin-top:1rem; color:green; }
+    #hero::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,.6));
+    }
+    #hero .content { position:relative; z-index:1; animation:fadeIn 1.5s both }
+    #hero h1 { font-size:3rem; letter-spacing:3px }
+    #hero p { font-size:1.2rem; }
+
+    /* ───── SECTION BASE ───── */
+    section { padding:4em 1em; max-width:800px; margin:0 auto; opacity:0; transform: translateY(30px);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    section.visible { opacity:1; transform:translateY(0) }
+
+    /* ───── COUNTDOWN ───── */
+    #countdown { text-align:center; }
+    #countdown .timer { display:flex; justify-content:center; gap:1em; font-size:2rem; }
+    #countdown .timer div { background:var(--light); padding:1em; border-radius:8px; width:4ch; }
+
+    /* ───── TIMELINE ───── */
+    .timeline { display:flex; justify-content:space-around; flex-wrap:wrap; gap:1em; margin-top:2em; }
+    .event { flex:1 1 8rem; background:var(--light); padding:1em; text-align:center;
+      border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); cursor:pointer;
+      transition: transform var(--transition);
+    }
+    .event:hover { transform: translateY(-5px) }
+
+    /* ───── MODAL SLIDESHOW ───── */
+    #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.8);
+      justify-content:center; align-items:center; z-index:1001;
+    }
+    #modal .slide { max-width:80vw; max-height:80vh; }
+    #modal .btn { position:absolute; top:50%; transform:translateY(-50%);
+      background:rgba(255,255,255,.4); border:none; font-size:2rem; padding:0.2em 0.5em;
+      cursor:pointer; }
+    #modal #prev { left:1em }
+    #modal #next { right:1em }
+    #modal #close { top:1em; right:1em; transform:none; }
+
+    /* ───── RSVP FORM ───── */
+    #rsvp form { background:var(--light); padding:2em; border-radius:8px;
+      box-shadow:0 2px 6px rgba(0,0,0,.1); max-width:400px; margin:1em auto;
+    }
+    #rsvp input, #rsvp button { width:100%; padding:0.8em; margin:0.5em 0; border:1px solid #ccc; border-radius:4px }
+    #rsvp button { background:var(--primary); color:#fff; border:none; cursor:pointer; transition: background var(--transition) }
+    #rsvp button:hover { background: darken(var(--primary),10%) }
+    #counts { text-align:center; margin-top:1em; font-size:1.1rem; }
+
+    /* ───── FLOATING HEARTS ───── */
+    .hearts { pointer-events:none; position:fixed; inset:0; overflow:hidden; z-index:10; }
+    .hearts .heart {
+      position:absolute; width:20px; height:20px; background:red; clip-path:path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'); 
+      animation: float 6s linear infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0); opacity:0 }
+      10% { opacity:1 }
+      100% { transform: translateY(-10vh) scale(1.2); opacity:0 }
+    }
+
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
   </style>
 </head>
 <body>
-
   <nav>
     <a href="#hero">Home</a>
     <a href="#countdown">Save the Date</a>
-    <a href="#timeline">Our Story</a>
+    <a href="#timeline">Timeline</a>
     <a href="#rsvp">RSVP</a>
     <a href="admin.html">Admin</a>
   </nav>
 
   <section id="hero">
-    <h1>Sarah &amp; Michael</h1>
-    <p>AUGUST 15, 2025</p>
+    <div class="content">
+      <h1>Sarah & Michael</h1>
+      <p>August 15, 2025</p>
+    </div>
+    <div class="hearts"></div>
   </section>
 
   <section id="countdown">
-    <h2>Save the Date</h2>
-    <div id="cd">
-      <span id="d">00</span>d
-      <span id="h">00</span>h
-      <span id="m">00</span>m
-      <span id="s">00</span>s
+    <h2>Counting down to “I do”</h2>
+    <div class="timer">
+      <div id="days">00</div>
+      <div id="hours">00</div>
+      <div id="minutes">00</div>
+      <div id="seconds">00</div>
     </div>
   </section>
 
   <section id="timeline">
     <h2>Our Story</h2>
     <div class="timeline">
-      <div data-event="meeting">First Meeting</div>
-      <div data-event="date">First Date</div>
-      <div data-event="move">Moving In</div>
-      <div data-event="proposal">Proposal</div>
+      <div class="event" data-key="meeting">First Meeting</div>
+      <div class="event" data-key="date">First Date</div>
+      <div class="event" data-key="move">Moving In</div>
+      <div class="event" data-key="proposal">The Proposal</div>
     </div>
   </section>
 
-  <!-- Slideshow Modal -->
-  <div id="slideshow-modal">
-    <button id="modal-close">×</button>
-    <button id="modal-prev">‹</button>
-    <img id="slide-img" src="">
-    <button id="modal-next">›</button>
+  <!-- Modal Slideshow -->
+  <div id="modal">
+    <button id="close">&times;</button>
+    <button id="prev" class="btn">&#10094;</button>
+    <img class="slide" src="" alt="">
+    <button id="next" class="btn">&#10095;</button>
   </div>
 
   <section id="rsvp">
     <h2>RSVP</h2>
     <form id="rsvp-form">
-      <input type="text" id="name" placeholder="Your Name" required>
-      <input type="email" id="email" placeholder="Your Email" required>
-      <label>
-        <input type="radio" name="attend" value="yes" checked> Yes, I'll be there
-      </label>
-      <label>
-        <input type="radio" name="attend" value="no"> Sorry, I can't
-      </label>
+      <input type="text" id="nm" placeholder="Your name" required>
+      <input type="email" id="em" placeholder="Your email" required>
+      <label><input type="radio" name="going" value="yes" checked> I’m coming</label>
+      <label><input type="radio" name="going" value="no"> Sadly, can’t make it</label>
       <button type="submit">Submit</button>
     </form>
-    <div id="rsvp-msg"></div>
+    <div id="counts">Loading counts…</div>
   </section>
 
   <script>
-    // ─── Supabase Setup ─────────────────────────
-    const supabase = supabase.createClient(
-      'https://YOUR_SUPABASE_URL.supabase.co',
-      'YOUR_SUPABASE_ANON_KEY'
-    );
+  // ── Supabase ──
+  const supabase = supabase.createClient(
+    'https://YOUR_SUPABASE_URL.supabase.co',
+    'YOUR_SUPABASE_ANON_KEY'
+  );
 
-    // ─── Countdown ──────────────────────────────
-    const weddingDate = new Date('2025-08-15T14:00:00');
-    function updateCountdown() {
-      const diff = weddingDate - new Date();
-      if (diff <= 0) return;
-      const d = Math.floor(diff/86400000),
-            h = Math.floor(diff%86400000/3600000),
-            m = Math.floor(diff%3600000/60000),
-            s = Math.floor(diff%60000/1000);
-      document.getElementById('d').textContent = String(d).padStart(2,'0');
-      document.getElementById('h').textContent = String(h).padStart(2,'0');
-      document.getElementById('m').textContent = String(m).padStart(2,'0');
-      document.getElementById('s').textContent = String(s).padStart(2,'0');
-    }
-    setInterval(updateCountdown,1000);
-    updateCountdown();
-
-    // ─── RSVP Submission ────────────────────────
-    document.getElementById('rsvp-form').addEventListener('submit', async e => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const attend = document.querySelector('input[name="attend"]:checked').value === 'yes';
-      const { error } = await supabase
-        .from('rsvps')
-        .insert([{ name, email, attend, created_at: new Date() }]);
-      document.getElementById('rsvp-msg').textContent = error
-        ? 'Submission failed, please try again.'
-        : 'Thank you for your response!';
-      if (!error) e.target.reset();
+  // ── SCROLL-REVEAL ──
+  function reveal() {
+    document.querySelectorAll('section').forEach(s => {
+      const r = s.getBoundingClientRect().top;
+      if (r < window.innerHeight*0.85) s.classList.add('visible');
     });
+  }
+  window.addEventListener('scroll', reveal);
+  reveal();
 
-    // ─── Timeline → Slideshow ───────────────────
-    const eventPics = {
-      meeting: ['img/meet1.jpg','img/meet2.jpg'],
-      date:    ['img/date1.jpg','img/date2.jpg'],
-      move:    ['img/move1.jpg','img/move2.jpg'],
-      proposal:['img/proposal1.jpg','img/proposal2.jpg']
-    };
-    let slides, idx=0;
-    const modal = document.getElementById('slideshow-modal'),
-          imgEl = document.getElementById('slide-img');
+  // ── COUNTDOWN ──
+  const D = document.getElementById('days'),
+        H = document.getElementById('hours'),
+        M = document.getElementById('minutes'),
+        S = document.getElementById('seconds');
+  const wedding = new Date('2025-08-15T14:00:00');
+  function tick() {
+    const diff = wedding - new Date();
+    if (diff<0) return;
+    const d = Math.floor(diff/86400000),
+          h = Math.floor(diff%86400000/3600000),
+          m = Math.floor(diff%3600000/60000),
+          s = Math.floor(diff%60000/1000);
+    D.textContent = d.toString().padStart(2,'0');
+    H.textContent = h.toString().padStart(2,'0');
+    M.textContent = m.toString().padStart(2,'0');
+    S.textContent = s.toString().padStart(2,'0');
+  }
+  setInterval(tick,1000); tick();
 
-    document.querySelectorAll('.timeline div').forEach(el => {
-      el.onclick = () => {
-        slides = eventPics[el.dataset.event] || [];
-        if (!slides.length) return;
-        idx = 0;
-        imgEl.src = slides[idx];
-        modal.style.display = 'flex';
-      };
-    });
-    document.getElementById('modal-prev').onclick = () => {
-      idx=(idx-1+slides.length)%slides.length;
-      imgEl.src = slides[idx];
+  // ── FLOATING HEARTS ──
+  const heartsCont = document.querySelector('.hearts');
+  function makeHeart(){
+    const h = document.createElement('div');
+    h.classList.add('heart');
+    h.style.left = Math.random()*100+'vw';
+    heartsCont.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  }
+  setInterval(makeHeart,500);
+
+  // ── TIMELINE → SLIDESHOW ──
+  const pics = {
+    meeting: ['https://source.unsplash.com/600x400/?couple','https://source.unsplash.com/600x400/?first-kiss'],
+    date:    ['https://source.unsplash.com/600x400/?dinner','https://source.unsplash.com/600x400/?gallery'],
+    move:    ['https://source.unsplash.com/600x400/?home','https://source.unsplash.com/600x400/?moving'],
+    proposal:['https://source.unsplash.com/600x400/?ring','https://source.unsplash.com/600x400/?christmas']
+  };
+  let idx=0, slides=[];
+  const modal = document.getElementById('modal'),
+        img  = modal.querySelector('.slide');
+  document.querySelectorAll('.event').forEach(el=>{
+    el.onclick = ()=>{
+      slides = pics[el.dataset.key]||[];
+      if (!slides.length) return;
+      idx=0; img.src = slides[idx];
+      modal.style.display = 'flex';
     };
-    document.getElementById('modal-next').onclick = () => {
-      idx=(idx+1)%slides.length;
-      imgEl.src = slides[idx];
-    };
-    document.getElementById('modal-close').onclick = () => modal.style.display='none';
-    modal.addEventListener('click', e => {
-      if (e.target===modal) modal.style.display='none';
-    });
+  });
+  modal.querySelector('#prev').onclick = ()=>{ idx=(idx-1+slides.length)%slides.length; img.src=slides[idx] };
+  modal.querySelector('#next').onclick = ()=>{ idx=(idx+1)%slides.length; img.src=slides[idx] };
+  modal.querySelector('#close').onclick = ()=>{ modal.style.display='none' };
+  modal.onclick = e=>{ if(e.target===modal) modal.style.display='none' };
+
+  // ── RSVP FORM & COUNTS ──
+  async function refreshCounts(){
+    const { data } = await supabase.from('rsvps').select('attend');
+    const total = data.length;
+    const yes   = data.filter(r=>r.attend).length;
+    const no    = total - yes;
+    document.getElementById('counts').textContent =
+      `Total: ${total} • Coming: ${yes} • Not: ${no}`;
+  }
+  document.getElementById('rsvp-form').onsubmit = async e=>{
+    e.preventDefault();
+    const name = document.getElementById('nm').value;
+    const email= document.getElementById('em').value;
+    const attend = document.querySelector('input[name="going"]:checked').value==='yes';
+    await supabase.from('rsvps').insert([{ name,email,attend,created_at:new Date() }]);
+    e.target.reset();
+    refreshCounts();
+    alert('Thank you!');
+  };
+  refreshCounts();
+  // real-time update
+  supabase.from('rsvps').on('INSERT',refreshCounts).subscribe();
   </script>
 </body>
 </html>
