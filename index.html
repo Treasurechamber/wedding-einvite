@@ -1524,143 +1524,130 @@
         });
 
         // Load Admin Dashboard Data
-        async function loadAdminData() {
-            try {
-                // Get all RSVPs
-                const { data, error } = await supabase
-                    .from('rsvps')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                
-                // Calculate statistics
-                const totalRsvps = data.length;
-                const attending = data.filter(rsvp => rsvp.attending);
-                const notAttending = data.filter(rsvp => !rsvp.attending);
-                const totalAttending = attending.length;
-                const totalNotAttending = notAttending.length;
-                const totalGuests = attending.reduce((sum, rsvp) => sum + rsvp.guests, 0);
-                
-                // Update statistics on page
-                document.getElementById('total-rsvps').textContent = totalRsvps;
-                document.getElementById('total-attending').textContent = totalAttending;
-                document.getElementById('total-not-attending').textContent = totalNotAttending;
-                document.getElementById('total-guests').textContent = totalGuests;
-                
-                // Update guest list table
-                const guestListBody = document.getElementById('guest-list-body');
-                guestListBody.innerHTML = '';
-                
-                data.forEach(rsvp => {
-                    const row = document.createElement('tr');
-                    
-                    row.innerHTML = `
-                        <td>${rsvp.name}</td>
-                        <td>${rsvp.email}</td>
-                        <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
-                            ${rsvp.attending ? 'Attending' : 'Not Attending'}
-                        </td>
-                        <td>${rsvp.guests}</td>
-                        <td>${rsvp.message || '-'}</td>
-                        <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
-                    `;
-                    
-                    guestListBody.appendChild(row);
-                });
-                    // Create Charts
-    const ctx = document.getElementById('rsvp-chart').getContext('2d');
-    
-    // Destroy existing chart if it exists
-    if (window.rsvpChart) {
-        window.rsvpChart.destroy();
-    }
-    
-    window.rsvpChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Attending', 'Not Attending'],
-            datasets: [{
-                data: [totalAttending, totalNotAttending],
-                backgroundColor: ['#4CAF50', '#F44336'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'RSVP Status',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
-        }
+      // Load Admin Dashboard Data
+async function loadAdminData() {
+  try {
+    // Get all RSVPs
+    const { data, error } = await supabase
+      .from('rsvps')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+
+    // Calculate statistics
+    const totalRsvps = data.length;
+    const attending = data.filter(rsvp => rsvp.attending);
+    const notAttending = data.filter(rsvp => !rsvp.attending);
+    const totalAttending = attending.length;
+    const totalNotAttending = notAttending.length;
+    const totalGuests = attending.reduce((sum, rsvp) => sum + rsvp.guests, 0);
+
+    // Update statistics on page
+    document.getElementById('total-rsvps').textContent = totalRsvps;
+    document.getElementById('total-attending').textContent = totalAttending;
+    document.getElementById('total-not-attending').textContent = totalNotAttending;
+    document.getElementById('total-guests').textContent = totalGuests;
+
+    // Populate guest list table
+    const guestListBody = document.getElementById('guest-list-body');
+    guestListBody.innerHTML = '';
+    data.forEach(rsvp => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${rsvp.name}</td>
+        <td>${rsvp.email}</td>
+        <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
+          ${rsvp.attending ? 'Attending' : 'Not Attending'}
+        </td>
+        <td>${rsvp.guests}</td>
+        <td>${rsvp.message || '-'}</td>
+        <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
+      `;
+      guestListBody.appendChild(row);
     });
-    
-    // Setup filters
-    document.getElementById('date-filter').addEventListener('change', filterGuests);
-    document.getElementById('search-guests').addEventListener('input', filterGuests);
-    
-    function filterGuests() {
-        const dateFilter = document.getElementById('date-filter').value;
-        const searchText = document.getElementById('search-guests').value.toLowerCase();
-        
-        const filteredData = data.filter(rsvp => {
-            const matchesSearch = rsvp.name.toLowerCase().includes(searchText) || 
-                                rsvp.email.toLowerCase().includes(searchText);
-            
-            const rsvpDate = new Date(rsvp.created_at);
-            const now = new Date();
-            let matchesDate = true;
-            
-            if (dateFilter === 'week') {
-                const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                matchesDate = rsvpDate >= oneWeekAgo;
-            } else if (dateFilter === 'month') {
-                const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-                matchesDate = rsvpDate >= oneMonthAgo;
-            }
-            
-            return matchesSearch && matchesDate;
-        });
-        
-        updateGuestTable(filteredData);
-    }
-    
-    function updateGuestTable(guests) {
-        const guestListBody = document.getElementById('guest-list-body');
-        guestListBody.innerHTML = '';
-        
-        guests.forEach(rsvp => {
-            const row = document.createElement('tr');
-            
-            row.innerHTML = `
-                <td>${rsvp.name}</td>
-                <td>${rsvp.email}</td>
-                <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
-                    ${rsvp.attending ? 'Attending' : 'Not Attending'}
-                </td>
-                <td>${rsvp.guests}</td>
-                <td>${rsvp.message || '-'}</td>
-                <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
-            `;
-            
-            guestListBody.appendChild(row);
-        });
-    }
-                
-            } catch (error) {
-                console.error('Error loading admin data:', error);
-                alert('There was an error loading the admin data. Please try again.');
-            }
+
+    // —— INSERT CHART + FILTER BLOCK HERE —— //
+
+    // Create Charts
+    const ctx = document.getElementById('rsvp-chart').getContext('2d');
+    if (window.rsvpChart) window.rsvpChart.destroy();
+    window.rsvpChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Attending', 'Not Attending'],
+        datasets: [{
+          data: [totalAttending, totalNotAttending],
+          backgroundColor: ['#4CAF50', '#F44336'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'RSVP Status',
+            font: { size: 16 }
+          }
         }
+      }
+    });
+
+    // Setup filters
+    document.getElementById('date-filter')
+      .addEventListener('change', filterGuests);
+    document.getElementById('search-guests')
+      .addEventListener('input', filterGuests);
+
+    function filterGuests() {
+      const dateFilter = document.getElementById('date-filter').value;
+      const searchText = document.getElementById('search-guests')
+        .value.toLowerCase();
+
+      const filteredData = data.filter(rsvp => {
+        const matchesSearch = rsvp.name.toLowerCase().includes(searchText) ||
+                              rsvp.email.toLowerCase().includes(searchText);
+        const rsvpDate = new Date(rsvp.created_at);
+        const now = new Date();
+        let matchesDate = true;
+        if (dateFilter === 'week') {
+          matchesDate = rsvpDate >= new Date(now - 7*24*60*60*1000);
+        } else if (dateFilter === 'month') {
+          matchesDate = rsvpDate >= new Date(now - 30*24*60*60*1000);
+        }
+        return matchesSearch && matchesDate;
+      });
+      updateGuestTable(filteredData);
+    }
+
+    function updateGuestTable(guests) {
+      const tbody = document.getElementById('guest-list-body');
+      tbody.innerHTML = '';
+      guests.forEach(rsvp => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${rsvp.name}</td>
+          <td>${rsvp.email}</td>
+          <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
+            ${rsvp.attending ? 'Attending' : 'Not Attending'}
+          </td>
+          <td>${rsvp.guests}</td>
+          <td>${rsvp.message || '-'}</td>
+          <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    // —— END CHART + FILTER BLOCK —— //
+
+  } catch (error) {
+    console.error('Error loading admin data:', error);
+    alert('There was an error loading the admin data. Please try again.');
+  }
+}
+
 
         // Handle hash changes for admin area
         window.addEventListener('hashchange', () => {
