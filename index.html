@@ -413,6 +413,223 @@
             margin-bottom: 15px;
             color: var(--accent-color);
         }
+        .chart-container {
+    height: 300px;
+    margin: 30px 0;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-weight: 500;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#search-guests {
+    min-width: 250px;
+}
+
+.guest-report-btn {
+    margin-top: 20px;
+    display: block;
+}
+        /* Modern Animations & Effects */
+.floating-hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23d4b08c' d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation: floating-heart 6s ease-in infinite;
+}
+
+@keyframes floating-heart {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5) rotate(0deg);
+    }
+    25% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    75% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-800px) scale(1.2) rotate(360deg);
+    }
+}
+
+/* Parallax Effect for Hero Section */
+.hero {
+    background-attachment: fixed;
+}
+
+/* Animated Elements */
+.animated-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+}
+
+.animated-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stylish button hover effects */
+.btn {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    left: 0;
+}
+
+/* 3D Card Effect */
+.detail-card {
+    perspective: 1000px;
+    transition: transform 0.6s;
+}
+
+.detail-card:hover {
+    transform: translateY(-10px) rotateY(5deg);
+}
+
+/* Interactive countdown items */
+.countdown-item {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.countdown-item:hover {
+    transform: scale(1.1);
+}
+
+.countdown-num {
+    position: relative;
+    overflow: hidden;
+}
+
+.countdown-num::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    animation: shine 5s infinite;
+}
+
+@keyframes shine {
+    0% { top: -100%; }
+    20% { top: 100%; }
+    100% { top: 100%; }
+}
+
+/* Cursor effect */
+.custom-cursor {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease;
+    z-index: 9999;
+    opacity: 0.7;
+    display: none;
+}
+
+.custom-cursor.active {
+    display: block;
+}
+
+.custom-cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease-out;
+    z-index: 10000;
+    display: none;
+}
+
+.custom-cursor-dot.active {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* Add this to the admin section styles */
+.admin-section {
+    transition: all 0.3s ease;
+}
+
+.admin-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
         
         /* Footer */
         .footer {
@@ -535,6 +752,66 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
+        /* Timeline Modal Styles */
+.timeline-modal-content {
+    max-width: 800px;
+    padding: 40px;
+}
+
+.timeline-content {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-story-slider {
+    margin-top: 30px;
+}
+
+.timeline-slide {
+    padding: 10px;
+}
+
+.timeline-slide img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.timeline-caption {
+    text-align: center;
+    font-style: italic;
+    margin-top: 10px;
+    color: var(--text-color);
+}
+
+/* Enhance timeline styles */
+.timeline-date {
+    position: relative;
+    display: inline-block;
+    font-weight: 600;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.timeline-date::after {
+    content: '→';
+    margin-left: 10px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+}
         
         .admin-section h3 {
             font-size: 1.5rem;
@@ -721,6 +998,8 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
 </head>
 <body>
     <!-- Navigation -->
@@ -928,6 +1207,27 @@
             <p class="copyright">© 2025 Sarah & Michael | All Rights Reserved</p>
         </div>
     </footer>
+    <!-- Timeline Story Modal -->
+<div class="modal" id="timeline-modal">
+    <div class="modal-content timeline-modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="timeline-modal-title">Our First Date</h3>
+        <div class="timeline-story-slider">
+            <div class="timeline-slide">
+                <img src="/api/placeholder/800/500" alt="Timeline event photo">
+                <p class="timeline-caption">Our first date at the art gallery. Michael was so nervous he spent 20 minutes talking about a painting that wasn't even part of the exhibition!</p>
+            </div>
+            <div class="timeline-slide">
+                <img src="/api/placeholder/800/500" alt="Timeline event photo">
+                <p class="timeline-caption">Dinner at the rooftop restaurant afterward. Sarah loved the view almost as much as the company.</p>
+            </div>
+            <div class="timeline-slide">
+                <img src="/api/placeholder/800/500" alt="Timeline event photo">
+                <p class="timeline-caption">Walking home under the stars, we knew this was just the beginning of something special.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Success Modal -->
     <div class="modal" id="success-modal">
@@ -952,6 +1252,23 @@
                         <h4>Total RSVPs</h4>
                         <div class="stat-num" id="total-rsvps">0</div>
                     </div>
+                    <div class="chart-container">
+    <canvas id="rsvp-chart"></canvas>
+</div>
+<div class="filters">
+    <div class="filter-group">
+        <label>Filter by Date:</label>
+        <select id="date-filter">
+            <option value="all">All Time</option>
+            <option value="week">Last Week</option>
+            <option value="month">Last Month</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Search:</label>
+        <input type="text" id="search-guests" placeholder="Search by name or email">
+    </div>
+</div>
                     <div class="stat-card">
                         <h4>Attending</h4>
                         <div class="stat-num" id="total-attending">0</div>
@@ -1251,6 +1568,93 @@
                     
                     guestListBody.appendChild(row);
                 });
+                    // Create Charts
+    const ctx = document.getElementById('rsvp-chart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (window.rsvpChart) {
+        window.rsvpChart.destroy();
+    }
+    
+    window.rsvpChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Attending', 'Not Attending'],
+            datasets: [{
+                data: [totalAttending, totalNotAttending],
+                backgroundColor: ['#4CAF50', '#F44336'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'RSVP Status',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    });
+    
+    // Setup filters
+    document.getElementById('date-filter').addEventListener('change', filterGuests);
+    document.getElementById('search-guests').addEventListener('input', filterGuests);
+    
+    function filterGuests() {
+        const dateFilter = document.getElementById('date-filter').value;
+        const searchText = document.getElementById('search-guests').value.toLowerCase();
+        
+        const filteredData = data.filter(rsvp => {
+            const matchesSearch = rsvp.name.toLowerCase().includes(searchText) || 
+                                rsvp.email.toLowerCase().includes(searchText);
+            
+            const rsvpDate = new Date(rsvp.created_at);
+            const now = new Date();
+            let matchesDate = true;
+            
+            if (dateFilter === 'week') {
+                const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                matchesDate = rsvpDate >= oneWeekAgo;
+            } else if (dateFilter === 'month') {
+                const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                matchesDate = rsvpDate >= oneMonthAgo;
+            }
+            
+            return matchesSearch && matchesDate;
+        });
+        
+        updateGuestTable(filteredData);
+    }
+    
+    function updateGuestTable(guests) {
+        const guestListBody = document.getElementById('guest-list-body');
+        guestListBody.innerHTML = '';
+        
+        guests.forEach(rsvp => {
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${rsvp.name}</td>
+                <td>${rsvp.email}</td>
+                <td class="${rsvp.attending ? 'status-attending' : 'status-not-attending'}">
+                    ${rsvp.attending ? 'Attending' : 'Not Attending'}
+                </td>
+                <td>${rsvp.guests}</td>
+                <td>${rsvp.message || '-'}</td>
+                <td>${new Date(rsvp.created_at).toLocaleDateString()}</td>
+            `;
+            
+            guestListBody.appendChild(row);
+        });
+    }
                 
             } catch (error) {
                 console.error('Error loading admin data:', error);
@@ -1323,6 +1727,303 @@
 
         // Run setup on page load
         setupDatabase();
+        // Timeline Story Modal Functionality
+const timelineModal = document.getElementById('timeline-modal');
+const timelineModalTitle = document.getElementById('timeline-modal-title');
+const timelineItems = document.querySelectorAll('.timeline-content');
+
+// Timeline stories data
+const timelineStories = {
+    "firstMeeting": {
+        title: "The First Meeting",
+        date: "June 12, 2020",
+        slides: [
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Sarah arriving at the party, not knowing her life was about to change forever."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "The infamous drink spill that started it all. Michael's shoes were never the same!"
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Laughing about the accident later that night. Sometimes the best relationships start with a little mess."
+            }
+        ]
+    },
+    "firstDate": {
+        title: "First Date",
+        date: "September 5, 2020",
+        slides: [
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Our first date at the art gallery. Michael was so nervous he spent 20 minutes talking about a painting that wasn't even part of the exhibition!"
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Dinner at the rooftop restaurant afterward. Sarah loved the view almost as much as the company."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Walking home under the stars, we knew this was just the beginning of something special."
+            }
+        ]
+    },
+    "movingIn": {
+        title: "Moving In Together",
+        date: "February 14, 2022",
+        slides: [
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Moving day! So many boxes, so much excitement."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Our first dinner in our new place - takeout pizza on the floor because we couldn't find the table."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Making the apartment our home over the next few weeks was a labor of love."
+            }
+        ]
+    },
+    "proposal": {
+        title: "The Proposal",
+        date: "December 24, 2023",
+        slides: [
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Michael had been planning this moment for months, carrying the ring everywhere for weeks waiting for the perfect moment."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "The proposal! Sarah was completely surprised when Michael got down on one knee under the Christmas lights."
+            },
+            {
+                image: "/api/placeholder/800/500",
+                caption: "Celebrating our engagement. We couldn't wait to call our families with the good news!"
+            }
+        ]
+    }
+};
+
+// Setup timeline items to be clickable
+timelineItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        let storyKey;
+        switch(index) {
+            case 0:
+                storyKey = "firstMeeting";
+                break;
+            case 1:
+                storyKey = "firstDate";
+                break;
+            case 2:
+                storyKey = "movingIn";
+                break;
+            case 3:
+                storyKey = "proposal";
+                break;
+        }
+        
+        const story = timelineStories[storyKey];
+        
+        // Set modal title
+        timelineModalTitle.textContent = story.title;
+        
+        // Generate slides HTML
+        let slidesHTML = '';
+        story.slides.forEach(slide => {
+            slidesHTML += `
+                <div class="timeline-slide">
+                    <img src="${slide.image}" alt="Timeline event photo">
+                    <p class="timeline-caption">${slide.caption}</p>
+                </div>
+            `;
+        });
+        
+        // Set slides HTML
+        document.querySelector('.timeline-story-slider').innerHTML = slidesHTML;
+        
+        // Initialize slider
+        $('.timeline-story-slider').slick({
+            dots: true,
+            arrows: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            adaptiveHeight: true
+        });
+        
+        // Show modal
+        timelineModal.style.display = 'block';
+    });
+});
+
+// Close modal when clicking X
+timelineModal.querySelector('.close-modal').addEventListener('click', () => {
+    timelineModal.style.display = 'none';
+    
+    // Destroy slider to prevent issues when reopening
+    $('.timeline-story-slider').slick('unslick');
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+    if (e.target === timelineModal) {
+        timelineModal.style.display = 'none';
+        
+        // Destroy slider to prevent issues when reopening
+        $('.timeline-story-slider').slick('unslick');
+    }
+});
+        // Create floating hearts effect
+function createFloatingHearts() {
+    const container = document.getElementById('floating-hearts');
+    
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        
+        // Random position, size, and animation duration
+        const startPos = Math.random() * 100;
+        const size = Math.random() * 20 + 15;
+        const duration = Math.random() * 4 + 4;
+        
+        heart.style.left = startPos + 'vw';
+        heart.style.bottom = '-50px';
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+        heart.style.animationDuration = duration + 's';
+        
+        container.appendChild(heart);
+        
+        // Remove heart after animation ends
+        setTimeout(() => {
+            heart.remove();
+        }, duration * 1000);
+    }
+    
+    // Create hearts periodically
+    setInterval(createHeart, 500);
+}
+
+// Initialize floating hearts on special sections
+function initFloatingHearts() {
+    // Only show hearts on story and rsvp sections
+    document.querySelector('#story').addEventListener('mouseenter', () => {
+        createFloatingHearts();
+    });
+    
+    document.querySelector('#rsvp').addEventListener('mouseenter', () => {
+        createFloatingHearts();
+    });
+}
+
+// Custom cursor effect
+function initCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = document.getElementById('custom-cursor-dot');
+    
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.top = e.clientY + 'px';
+        cursor.style.left = e.clientX + 'px';
+        
+        cursorDot.style.top = e.clientY + 'px';
+        cursorDot.style.left = e.clientX + 'px';
+    });
+    
+    // Only show custom cursor on desktop
+    if (window.innerWidth > 992) {
+        cursor.classList.add('active');
+        cursorDot.classList.add('active');
+        
+        // Cursor interaction effects
+        const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .timeline-content, .gallery-item');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.borderColor = 'rgba(212, 176, 140, 0.5)';
+                cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.borderColor = 'var(--primary-color)';
+                cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+    }
+}
+
+// Animate elements when they come into view
+function initScrollAnimations() {
+    // Add animated-element class to these elements
+    const animatedElements = document.querySelectorAll('.timeline-item, .detail-card, .rsvp-form, .gallery-item, .countdown-item');
+    
+    animatedElements.forEach(el => {
+        el.classList.add('animated-element');
+    });
+    
+    // Check if element is in viewport
+    function isInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+            rect.bottom >= 0
+        );
+    }
+    
+    // Check elements on scroll
+    function checkElements() {
+        const elements = document.querySelectorAll('.animated-element');
+        elements.forEach(el => {
+            if (isInViewport(el)) {
+                el.classList.add('visible');
+            }
+        });
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', checkElements);
+    
+    // Check elements on page load
+    checkElements();
+}
+
+// Initialize all modern effects
+document.addEventListener('DOMContentLoaded', () => {
+    initFloatingHearts();
+    initCustomCursor();
+    initScrollAnimations();
+});
+
+// Interactive Countdown Animation
+document.querySelectorAll('.countdown-item').forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.add('pulse');
+        setTimeout(() => {
+            item.classList.remove('pulse');
+        }, 1000);
+    });
+});
+
+// Add a 3D flip effect when hovering over timeline items
+document.querySelectorAll('.timeline-content').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+        item.style.transform = 'rotateY(15deg)';
+    });
+    
+    item.addEventListener('mouseleave', () => {
+        item.style.transform = 'rotateY(0)';
+    });
+});
     </script>
+    <div class="floating-hearts" id="floating-hearts"></div>
+<div class="custom-cursor" id="custom-cursor"></div>
+<div class="custom-cursor-dot" id="custom-cursor-dot"></div>
 </body>
 </html>
