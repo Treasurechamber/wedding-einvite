@@ -1177,38 +1177,7 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
 });
 
-// Function to update admin statistics
-async function updateAdminStats() {
-    if (!isAdmin) return;
-    
-    try {
-        const { data, error } = await supabase
-            .from('rsvps')
-            .select('*');
-            
-        if (error) {
-            console.error('Error fetching stats data:', error);
-            return;
-        }
-        
-        if (data) {
-            const totalRsvps = data.length;
-            const attending = data.filter(guest => guest.attending === 'yes');
-            const notAttending = data.filter(guest => guest.attending === 'no');
-            
-            // Calculate total guests attending (sum of guests field for attending RSVPs)
-            const totalGuests = attending.reduce((sum, guest) => sum + parseInt(guest.guests || 0), 0);
-            
-            // Update the stats in the admin panel
-            document.getElementById('admin-total-rsvps').textContent = totalRsvps;
-            document.getElementById('admin-total-attending').textContent = attending.length;
-            document.getElementById('admin-total-declined').textContent = notAttending.length;
-            document.getElementById('admin-total-guests').textContent = totalGuests;
-        }
-    } catch (error) {
-        console.error('Error updating admin stats:', error);
-    }
-}
+
 
 // Filter functionality in admin panel
 document.querySelectorAll('input[name="filter"]').forEach(radio => {
