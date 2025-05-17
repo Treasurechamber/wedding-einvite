@@ -823,13 +823,47 @@
         </div>
     </section>
 
-    <!-- Admin Section -->
+  <!-- Admin Section -->
     <section class="admin-section" id="admin">
         <div class="container">
             <h2>Admin Dashboard</h2>
             <div class="admin-controls">
-                <button id="export-csv" class="btn">Export to CSV</button>
-                <button id="logout-btn" class="btn">Logout</button>
+                <div class="filters" style="margin-bottom: 20px; text-align: left;">
+                    <label style="margin-right: 10px;">
+                        <input type="radio" name="filter" value="all" checked> All Responses
+                    </label>
+                    <label style="margin-right: 10px;">
+                        <input type="radio" name="filter" value="attending"> Attending Only
+                    </label>
+                    <label>
+                        <input type="radio" name="filter" value="not-attending"> Not Attending
+                    </label>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="refresh-list" class="btn" style="background-color: var(--secondary-color);">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button id="export-csv" class="btn">
+                        <i class="fas fa-file-download"></i> Export to CSV
+                    </button>
+                    <button id="logout-btn" class="btn" style="background-color: var(--accent-color);">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+            <div class="stats-summary" style="display: flex; justify-content: space-between; margin-bottom: 20px; background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                <div>
+                    <span style="font-weight: bold;">Total RSVPs:</span> <span id="admin-total-rsvps">0</span>
+                </div>
+                <div>
+                    <span style="font-weight: bold;">Total Attending:</span> <span id="admin-total-attending">0</span>
+                </div>
+                <div>
+                    <span style="font-weight: bold;">Total Not Attending:</span> <span id="admin-total-declined">0</span>
+                </div>
+                <div>
+                    <span style="font-weight: bold;">Total Guests Expected:</span> <span id="admin-total-guests">0</span>
+                </div>
             </div>
             <div class="guests-table">
                 <table>
@@ -844,6 +878,9 @@
                     </thead>
                     <tbody id="guests-table-body">
                         <!-- Guests will be loaded here -->
+                        <tr>
+                            <td colspan="5">Loading guest list...</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1101,28 +1138,236 @@
             document.getElementById('admin-modal').style.display = 'none';
         });
 
-        // Admin Login
-        document.getElementById('login-btn').addEventListener('click', async () => {
-            const password = document.getElementById('admin-password').value;
+// Admin Login
+document.getElementById('login-btn').addEventListener('click', async () => {
+    const password = document.getElementById('admin-password').value;
+    const loadingIndicator = document.createElement('span');
+    loadingIndicator.className = 'loading';
+    loadingIndicator.style.marginLeft = '10px';
+    document.getElementById('login-btn').appendChild(loadingIndicator);
+    
+    // Simple password check (in production, use secure authentication)
+    if (password === 'wedding2025') {
+        // Show admin section
+        document.getElementById('admin').style.display = 'block';
+        document.getElementById('admin-modal').style.display = 'none';
+        
+        // Scroll to admin section
+        document.getElementById('admin').scrollIntoView({ behavior: 'smooth' });
+        
+        // Set admin flag
+        isAdmin = true;
+        localStorage.setItem('weddingAdminLoggedIn', 'true');
+        
+        // Load guest list
+        loadGuestList();
+        updateAdminStats();
+    } else {
+        alert('Incorrect password');
+    }
+    
+    document.getElementById('login-btn').removeChild(loadingIndicator);
+});
+
+// Logout button
+document.getElementById('logout-btn').addEventListener('click', () => {
+    document.getElementById('admin').style.display = 'none';
+    isAdmin = false;
+    localStorage.removeItem('weddingAdminLoggedIn');
+    document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+});
+
+// Function to update admin statistics
+async function updateAdminStats() {
+    if (!isAdmin) return;
+    
+    try {
+        const { data, error } = await supabase
+            .from('rsvps')
+            .select('*');
             
-            // Simple password check (in production, use secure authentication)
-            if (password === 'wedding2025') {
-                // Show admin section
-                document.getElementById('admin').style.display = 'block';
-                document.getElementById('admin-modal').style.display = 'none';
+        if (error) {
+            console.error('Error fetching stats data:', error);
+            return;
+        }
+        
+        if (data) {
+            const totalRsvps = data.length;
+            const attending = data.filter(guest => guest.attending === 'yes');
+            const notAttending = data.filter(guest => guest.attending === 'no');
+            
+            // Calculate total guests attending (sum of guests field for attending RSVPs)
+            const totalGuests = attending.reduce((sum, guest) => sum + parseInt(guest.guests || 0), 0);
+            
+            // Update the stats in the admin panel
+            document.getElementById('admin-total-rsvps').textContent = totalRsvps;
+            document.getElementById('admin-total-attending').textContent = attending.length;
+            document.getElementById('admin-total-declined').textContent = notAttending.length;
+            document.getElementById('admin-total-guests').textContent = totalGuests;
+        }
+    } catch (error) {
+        console.error('Error updating admin stats:', error);
+    }
+}
+
+// Filter functionality in admin panel
+document.querySelectorAll('input[name="filter"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        loadGuestList(this.value);
+    });
+});
+
+// Refresh button
+document.getElementById('refresh-list').addEventListener('click', function() {
+    const selectedFilter = document.querySelector('input[name="filter"]:checked').value;
+    loadGuestList(selectedFilter);
+    updateAdminStats();
+});
+
+// Updated loadGuestList function to support filtering
+async function loadGuestList(filter = 'all') {
+    if (!isAdmin) return;
+
+    try {
+        // Show loading indicator
+        const tableBody = document.getElementById('guests-table-body');
+        tableBody.innerHTML = '<tr><td colspan="5">Loading guest list...</td></tr>';
+        
+        // Build query based on filter
+        let query = supabase.from('rsvps').select('*');
+        
+        if (filter === 'attending') {
+            query = query.eq('attending', 'yes');
+        } else if (filter === 'not-attending') {
+            query = query.eq('attending', 'no');
+        }
+        
+        // Execute query with sorting
+        const { data, error } = await query.order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error fetching guest list:', error);
+            tableBody.innerHTML = '<tr><td colspan="5">Error loading guest list. Please try again.</td></tr>';
+            return;
+        }
+
+        tableBody.innerHTML = '';
+
+        if (data && data.length > 0) {
+            let totalAttending = 0;
+            
+            data.forEach(guest => {
+                const row = document.createElement('tr');
+                const attendingStatus = guest.attending === 'yes' ? 'Attending' : 'Not Attending';
+                const guestCount = guest.attending === 'yes' ? parseInt(guest.guests || 0) : 0;
                 
-                // Scroll to admin section
-                document.getElementById('admin').scrollIntoView({ behavior: 'smooth' });
+                if (guest.attending === 'yes') {
+                    totalAttending += guestCount;
+                }
                 
-                // Set admin flag
-                isAdmin = true;
+                const formattedDate = new Date(guest.created_at).toLocaleDateString();
                 
-                // Load guest list
-                loadGuestList();
-            } else {
-                alert('Incorrect password');
-            }
-        });
+                row.innerHTML = `
+                    <td>${guest.name || 'N/A'}</td>
+                    <td>${guest.email || 'N/A'}</td>
+                    <td>${attendingStatus}</td>
+                    <td>${guest.guests || '0'}</td>
+                    <td>${guest.message || '-'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add summary row for the filtered data
+            const summaryRow = document.createElement('tr');
+            summaryRow.style.fontWeight = 'bold';
+            summaryRow.style.backgroundColor = '#f9f7f3';
+            summaryRow.innerHTML = `
+                <td colspan="3">Filtered Total:</td>
+                <td>${totalAttending}</td>
+                <td></td>
+            `;
+            tableBody.appendChild(summaryRow);
+            
+        } else {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="5">No RSVPs found matching your criteria</td>';
+            tableBody.appendChild(row);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('guests-table-body').innerHTML = 
+            '<tr><td colspan="5">Error loading guest list. Please try again.</td></tr>';
+    }
+}
+
+// Export to CSV functionality with filtering support
+document.getElementById('export-csv').addEventListener('click', async () => {
+    if (!isAdmin) return;
+    
+    const filter = document.querySelector('input[name="filter"]:checked').value;
+    const exportBtn = document.getElementById('export-csv');
+    const originalText = exportBtn.innerHTML;
+    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+
+    try {
+        // Build query based on filter
+        let query = supabase.from('rsvps').select('*');
+        
+        if (filter === 'attending') {
+            query = query.eq('attending', 'yes');
+        } else if (filter === 'not-attending') {
+            query = query.eq('attending', 'no');
+        }
+        
+        const { data, error } = await query.order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error fetching data for export:', error);
+            alert('Error exporting data. Please try again.');
+            exportBtn.innerHTML = originalText;
+            return;
+        }
+
+        if (data && data.length > 0) {
+            // Convert data to CSV
+            const headers = ['Name', 'Email', 'Attending', 'Guests', 'Message', 'Date'];
+            let csvContent = headers.join(',') + '\n';
+
+            data.forEach(guest => {
+                const row = [
+                    `"${guest.name || ''}"`,
+                    `"${guest.email || ''}"`,
+                    `"${guest.attending === 'yes' ? 'Yes' : 'No'}"`,
+                    `"${guest.guests || '0'}"`,
+                    `"${(guest.message || '').replace(/"/g, '""')}"`,
+                    `"${new Date(guest.created_at).toLocaleDateString()}"`,
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+
+            // Create download link
+            const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            
+            // Set filename with date and filter info
+            const date = new Date().toISOString().split('T')[0];
+            const filterText = filter !== 'all' ? `_${filter}` : '';
+            link.setAttribute('download', `wedding_rsvps${filterText}_${date}.csv`);
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            alert('No data to export');
+        }
+    } catch (error) {
+        console.error('Error exporting data:', error);
+        alert('Error exporting data. Please try again.');
+    }
+    
+    exportBtn.innerHTML = originalText;
+});
 
         // Logout button
         document.getElementById('logout-btn').addEventListener('click', () => {
@@ -1131,102 +1376,93 @@
             document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Function to load guest list for admin
-        async function loadGuestList() {
-            if (!isAdmin) return;
+async function loadGuestList() {
+    if (!isAdmin) return;
 
-            try {
-                const { data, error } = await supabase
-                    .from('rsvps')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+    try {
+        // Show loading indicator if needed
+        const tableBody = document.getElementById('guests-table-body');
+        tableBody.innerHTML = '<tr><td colspan="5">Loading guest list...</td></tr>';
+        
+        const { data, error } = await supabase
+            .from('rsvps')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-                if (error) {
-                    console.error('Error fetching guest list:', error);
-                    return;
-                }
-
-                const tableBody = document.getElementById('guests-table-body');
-                tableBody.innerHTML = '';
-
-                if (data && data.length > 0) {
-                    data.forEach(guest => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${guest.name}</td>
-                            <td>${guest.email}</td>
-                            <td>${guest.attending === 'yes' ? 'Attending' : 'Not Attending'}</td>
-                            <td>${guest.guests}</td>
-                            <td>${guest.message || '-'}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="5">No RSVPs yet</td>';
-                    tableBody.appendChild(row);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+        if (error) {
+            console.error('Error fetching guest list:', error);
+            tableBody.innerHTML = '<tr><td colspan="5">Error loading guest list. Please try again.</td></tr>';
+            return;
         }
 
-        // Export to CSV functionality
-        document.getElementById('export-csv').addEventListener('click', async () => {
-            if (!isAdmin) return;
+        tableBody.innerHTML = '';
 
-            try {
-                const { data, error } = await supabase
-                    .from('rsvps')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) {
-                    console.error('Error fetching data for export:', error);
-                    return;
-                }
-
-                if (data && data.length > 0) {
-                    // Convert data to CSV
-                    const headers = ['Name', 'Email', 'Attending', 'Guests', 'Message', 'Date'];
-                    let csvContent = headers.join(',') + '\n';
-
-                    data.forEach(guest => {
-                        const row = [
-                            `"${guest.name}"`,
-                            `"${guest.email}"`,
-                            `"${guest.attending === 'yes' ? 'Yes' : 'No'}"`,
-                            `"${guest.guests}"`,
-                            `"${(guest.message || '').replace(/"/g, '""')}"`,
-                            `"${new Date(guest.created_at).toLocaleDateString()}"`,
-                        ];
-                        csvContent += row.join(',') + '\n';
-                    });
-
-                    // Create download link
-                    const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
-                    const link = document.createElement('a');
-                    link.setAttribute('href', encodedUri);
-                    link.setAttribute('download', `wedding_rsvps_${new Date().toISOString().split('T')[0]}.csv`);
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } else {
-                    alert('No data to export');
-                }
-            } catch (error) {
-                console.error('Error exporting data:', error);
-            }
-        });
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Start the slideshow
-            showSlide(0);
+        if (data && data.length > 0) {
+            let totalAttending = 0;
             
-            // Load guest stats
-            loadGuestStats();
+            data.forEach(guest => {
+                const row = document.createElement('tr');
+                const attendingStatus = guest.attending === 'yes' ? 'Attending' : 'Not Attending';
+                const guestCount = guest.attending === 'yes' ? parseInt(guest.guests || 0) : 0;
+                
+                if (guest.attending === 'yes') {
+                    totalAttending += guestCount;
+                }
+                
+                const formattedDate = new Date(guest.created_at).toLocaleDateString();
+                
+                row.innerHTML = `
+                    <td>${guest.name || 'N/A'}</td>
+                    <td>${guest.email || 'N/A'}</td>
+                    <td>${attendingStatus}</td>
+                    <td>${guest.guests || '0'}</td>
+                    <td>${guest.message || '-'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add summary row
+            const summaryRow = document.createElement('tr');
+            summaryRow.style.fontWeight = 'bold';
+            summaryRow.style.backgroundColor = '#f9f7f3';
+            summaryRow.innerHTML = `
+                <td colspan="3">Total Attending:</td>
+                <td>${totalAttending}</td>
+                <td></td>
+            `;
+            tableBody.appendChild(summaryRow);
+            
+        } else {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="5">No RSVPs yet</td>';
+            tableBody.appendChild(row);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('guests-table-body').innerHTML = 
+            '<tr><td colspan="5">Error loading guest list. Please try again.</td></tr>';
+    }
+}
         });
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Start the slideshow
+    showSlide(0);
+    
+    // Load guest stats
+    loadGuestStats();
+    
+    // Check if admin was previously logged in
+    if (localStorage.getItem('weddingAdminLoggedIn') === 'true') {
+        isAdmin = true;
+        document.getElementById('admin').style.display = 'block';
+        
+        // Load admin data
+        loadGuestList();
+        updateAdminStats();
+    }
+});
     </script>
 </body>
 </html>
