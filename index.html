@@ -2,251 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sarah & Michael • E-Invite</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- Supabase client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation - Sarah & Michael</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
   <style>
-    /* ───── VARIABLES ───── */
-    :root {
-      --primary: #d4b08c;
-      --bg: #f8f5f2;
-      --txt: #2c3e50;
-      --light: #fff;
-      --transition: 0.4s ease;
-    }
-    * { box-sizing:border-box; margin:0; padding:0 }
-    body { font-family: sans-serif; color: var(--txt); background: var(--bg); overflow-x:hidden; }
-    a { color: inherit; text-decoration:none }
-    h1,h2 { margin-bottom:0.5em }
-
-    /* ───── NAV ───── */
-    nav {
-      position: fixed; top:0; width:100%; padding:1em;
-      background:rgba(255,255,255,0.85); display:flex; justify-content:center; gap:2em;
-      box-shadow:0 2px 8px rgba(0,0,0,.1); z-index:1000;
-    }
-    nav a:hover { color: var(--primary) }
-
-    /* ───── HERO ───── */
-    #hero {
-      height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
-      background: url('https://source.unsplash.com/1600x900/?wedding') center/cover fixed;
-      position:relative; color: var(--light);
-    }
-    #hero::after {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,.6));
-    }
-    #hero .content { position:relative; z-index:1; animation:fadeIn 1.5s both }
-    #hero h1 { font-size:3rem; letter-spacing:3px }
-    #hero p { font-size:1.2rem; }
-
-    /* ───── SECTION BASE ───── */
-    section { padding:4em 1em; max-width:800px; margin:0 auto; opacity:0; transform: translateY(30px);
-      transition: opacity var(--transition), transform var(--transition);
-    }
-    section.visible { opacity:1; transform:translateY(0) }
-
-    /* ───── COUNTDOWN ───── */
-    #countdown { text-align:center; }
-    #countdown .timer { display:flex; justify-content:center; gap:1em; font-size:2rem; }
-    #countdown .timer div { background:var(--light); padding:1em; border-radius:8px; width:4ch; }
-
-    /* ───── TIMELINE ───── */
-    .timeline { display:flex; justify-content:space-around; flex-wrap:wrap; gap:1em; margin-top:2em; }
-    .event { flex:1 1 8rem; background:var(--light); padding:1em; text-align:center;
-      border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); cursor:pointer;
-      transition: transform var(--transition);
-    }
-    .event:hover { transform: translateY(-5px) }
-
-    /* ───── MODAL SLIDESHOW ───── */
-    #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.8);
-      justify-content:center; align-items:center; z-index:1001;
-    }
-    #modal .slide { max-width:80vw; max-height:80vh; }
-    #modal .btn { position:absolute; top:50%; transform:translateY(-50%);
-      background:rgba(255,255,255,.4); border:none; font-size:2rem; padding:0.2em 0.5em;
-      cursor:pointer; }
-    #modal #prev { left:1em }
-    #modal #next { right:1em }
-    #modal #close { top:1em; right:1em; transform:none; }
-
-    /* ───── RSVP FORM ───── */
-    #rsvp form { background:var(--light); padding:2em; border-radius:8px;
-      box-shadow:0 2px 6px rgba(0,0,0,.1); max-width:400px; margin:1em auto;
-    }
-    #rsvp input, #rsvp button { width:100%; padding:0.8em; margin:0.5em 0; border:1px solid #ccc; border-radius:4px }
-    #rsvp button { background:var(--primary); color:#fff; border:none; cursor:pointer; transition: background var(--transition) }
-    #rsvp button:hover { background: darken(var(--primary),10%) }
-    #counts { text-align:center; margin-top:1em; font-size:1.1rem; }
-
-    /* ───── FLOATING HEARTS ───── */
-    .hearts { pointer-events:none; position:fixed; inset:0; overflow:hidden; z-index:10; }
-    .hearts .heart {
-      position:absolute; width:20px; height:20px; background:red; clip-path:path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'); 
-      animation: float 6s linear infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0); opacity:0 }
-      10% { opacity:1 }
-      100% { transform: translateY(-10vh) scale(1.2); opacity:0 }
-    }
-
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    /* Use your original CSS styles here */
+    body { font-family: 'Montserrat', sans-serif; background: #f8f5f2; color: #333; margin: 0; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+    .modal-content { background: white; margin: 10% auto; padding: 20px; border-radius: 8px; max-width: 600px; position: relative; }
+    .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
+    .gallery-item img { width: 100%; height: auto; border-radius: 8px; }
+    .timeline-item { cursor: pointer; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="#hero">Home</a>
-    <a href="#countdown">Save the Date</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#rsvp">RSVP</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-
-  <section id="hero">
-    <div class="content">
-      <h1>Sarah & Michael</h1>
-      <p>August 15, 2025</p>
-    </div>
-    <div class="hearts"></div>
+  <section class="timeline">
+    <div class="timeline-item"><div class="timeline-content"><h3>The First Meeting</h3></div></div>
+    <div class="timeline-item"><div class="timeline-content"><h3>First Date</h3></div></div>
+    <div class="timeline-item"><div class="timeline-content"><h3>Moving In Together</h3></div></div>
+    <div class="timeline-item"><div class="timeline-content"><h3>The Proposal</h3></div></div>
   </section>
 
-  <section id="countdown">
-    <h2>Counting down to “I do”</h2>
-    <div class="timer">
-      <div id="days">00</div>
-      <div id="hours">00</div>
-      <div id="minutes">00</div>
-      <div id="seconds">00</div>
+  <div id="story-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-story-modal">&times;</span>
+      <h3 id="story-title"></h3>
+      <div id="story-slideshow" class="gallery-slider"></div>
+      <p id="story-description"></p>
     </div>
-  </section>
-
-  <section id="timeline">
-    <h2>Our Story</h2>
-    <div class="timeline">
-      <div class="event" data-key="meeting">First Meeting</div>
-      <div class="event" data-key="date">First Date</div>
-      <div class="event" data-key="move">Moving In</div>
-      <div class="event" data-key="proposal">The Proposal</div>
-    </div>
-  </section>
-
-  <!-- Modal Slideshow -->
-  <div id="modal">
-    <button id="close">&times;</button>
-    <button id="prev" class="btn">&#10094;</button>
-    <img class="slide" src="" alt="">
-    <button id="next" class="btn">&#10095;</button>
   </div>
 
-  <section id="rsvp">
-    <h2>RSVP</h2>
-    <form id="rsvp-form">
-      <input type="text" id="nm" placeholder="Your name" required>
-      <input type="email" id="em" placeholder="Your email" required>
-      <label><input type="radio" name="going" value="yes" checked> I’m coming</label>
-      <label><input type="radio" name="going" value="no"> Sadly, can’t make it</label>
-      <button type="submit">Submit</button>
-    </form>
-    <div id="counts">Loading counts…</div>
-  </section>
+  <div class="admin-dashboard">
+    <div class="stats-grid"></div>
+  </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-  // ── Supabase ──
-  const supabase = supabase.createClient(
-    'https://YOUR_SUPABASE_URL.supabase.co',
-    'YOUR_SUPABASE_ANON_KEY'
-  );
+    const supabase = supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_KEY');
 
-  // ── SCROLL-REVEAL ──
-  function reveal() {
-    document.querySelectorAll('section').forEach(s => {
-      const r = s.getBoundingClientRect().top;
-      if (r < window.innerHeight*0.85) s.classList.add('visible');
+    const timelineEvents = [
+      { title: 'The First Meeting', description: 'We met at a mutual friend\'s party.', images: ['/api/placeholder/600/400'] },
+      { title: 'First Date', description: 'Art gallery and rooftop dinner.', images: ['/api/placeholder/600/400'] },
+      { title: 'Moving In Together', description: 'We got our first apartment.', images: ['/api/placeholder/600/400'] },
+      { title: 'The Proposal', description: 'A snowy proposal under lights.', images: ['/api/placeholder/600/400'] }
+    ];
+
+    const storyModal = document.getElementById('story-modal');
+    const storyTitle = document.getElementById('story-title');
+    const storyDescription = document.getElementById('story-description');
+    const storySlideshow = document.getElementById('story-slideshow');
+
+    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+      item.addEventListener('click', () => {
+        const event = timelineEvents[index];
+        storyTitle.textContent = event.title;
+        storyDescription.textContent = event.description;
+        storySlideshow.innerHTML = event.images.map(src => `<div class='gallery-item'><img src='${src}' alt='Story image'></div>`).join('');
+        $(storySlideshow).slick({ dots: true, arrows: true, infinite: true, speed: 500, slidesToShow: 1 });
+        storyModal.style.display = 'block';
+      });
     });
-  }
-  window.addEventListener('scroll', reveal);
-  reveal();
 
-  // ── COUNTDOWN ──
-  const D = document.getElementById('days'),
-        H = document.getElementById('hours'),
-        M = document.getElementById('minutes'),
-        S = document.getElementById('seconds');
-  const wedding = new Date('2025-08-15T14:00:00');
-  function tick() {
-    const diff = wedding - new Date();
-    if (diff<0) return;
-    const d = Math.floor(diff/86400000),
-          h = Math.floor(diff%86400000/3600000),
-          m = Math.floor(diff%3600000/60000),
-          s = Math.floor(diff%60000/1000);
-    D.textContent = d.toString().padStart(2,'0');
-    H.textContent = h.toString().padStart(2,'0');
-    M.textContent = m.toString().padStart(2,'0');
-    S.textContent = s.toString().padStart(2,'0');
-  }
-  setInterval(tick,1000); tick();
+    document.getElementById('close-story-modal').addEventListener('click', () => {
+      storyModal.style.display = 'none';
+      $(storySlideshow).slick('unslick');
+    });
 
-  // ── FLOATING HEARTS ──
-  const heartsCont = document.querySelector('.hearts');
-  function makeHeart(){
-    const h = document.createElement('div');
-    h.classList.add('heart');
-    h.style.left = Math.random()*100+'vw';
-    heartsCont.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-  }
-  setInterval(makeHeart,500);
-
-  // ── TIMELINE → SLIDESHOW ──
-  const pics = {
-    meeting: ['https://source.unsplash.com/600x400/?couple','https://source.unsplash.com/600x400/?first-kiss'],
-    date:    ['https://source.unsplash.com/600x400/?dinner','https://source.unsplash.com/600x400/?gallery'],
-    move:    ['https://source.unsplash.com/600x400/?home','https://source.unsplash.com/600x400/?moving'],
-    proposal:['https://source.unsplash.com/600x400/?ring','https://source.unsplash.com/600x400/?christmas']
-  };
-  let idx=0, slides=[];
-  const modal = document.getElementById('modal'),
-        img  = modal.querySelector('.slide');
-  document.querySelectorAll('.event').forEach(el=>{
-    el.onclick = ()=>{
-      slides = pics[el.dataset.key]||[];
-      if (!slides.length) return;
-      idx=0; img.src = slides[idx];
-      modal.style.display = 'flex';
-    };
-  });
-  modal.querySelector('#prev').onclick = ()=>{ idx=(idx-1+slides.length)%slides.length; img.src=slides[idx] };
-  modal.querySelector('#next').onclick = ()=>{ idx=(idx+1)%slides.length; img.src=slides[idx] };
-  modal.querySelector('#close').onclick = ()=>{ modal.style.display='none' };
-  modal.onclick = e=>{ if(e.target===modal) modal.style.display='none' };
-
-  // ── RSVP FORM & COUNTS ──
-  async function refreshCounts(){
-    const { data } = await supabase.from('rsvps').select('attend');
-    const total = data.length;
-    const yes   = data.filter(r=>r.attend).length;
-    const no    = total - yes;
-    document.getElementById('counts').textContent =
-      `Total: ${total} • Coming: ${yes} • Not: ${no}`;
-  }
-  document.getElementById('rsvp-form').onsubmit = async e=>{
-    e.preventDefault();
-    const name = document.getElementById('nm').value;
-    const email= document.getElementById('em').value;
-    const attend = document.querySelector('input[name="going"]:checked').value==='yes';
-    await supabase.from('rsvps').insert([{ name,email,attend,created_at:new Date() }]);
-    e.target.reset();
-    refreshCounts();
-    alert('Thank you!');
-  };
-  refreshCounts();
-  // real-time update
-  supabase.from('rsvps').on('INSERT',refreshCounts).subscribe();
+    async function loadAdminDataWithChart() {
+      const { data, error } = await supabase.from('rsvps').select('*');
+      if (error) return console.error(error);
+      const attending = data.filter(d => d.attending).length;
+      const notAttending = data.length - attending;
+      const canvas = document.createElement('canvas');
+      canvas.id = 'rsvpChart';
+      document.querySelector('.stats-grid').appendChild(canvas);
+      new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+          labels: ['Attending', 'Not Attending'],
+          datasets: [{
+            data: [attending, notAttending],
+            backgroundColor: ['#4CAF50', '#F44336'],
+            hoverOffset: 10
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    }
+    loadAdminDataWithChart();
   </script>
 </body>
 </html>
