@@ -1,100 +1,1232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Invitation - Sarah & Michael</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-  <style>
-    /* Use your original CSS styles here */
-    body { font-family: 'Montserrat', sans-serif; background: #f8f5f2; color: #333; margin: 0; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
-    .modal-content { background: white; margin: 10% auto; padding: 20px; border-radius: 8px; max-width: 600px; position: relative; }
-    .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
-    .gallery-item img { width: 100%; height: auto; border-radius: 8px; }
-    .timeline-item { cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex & Jordan's Wedding</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d4b08c;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #f9f7f3;
+            --dark-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .date {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .location {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        /* Countdown Section */
+        .countdown-section {
+            padding: 100px 0;
+            text-align: center;
+            background-color: white;
+        }
+
+        .countdown-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .countdown-item {
+            width: 150px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-item span {
+            display: block;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Our Story Section */
+        .our-story {
+            padding: 100px 0;
+            background-color: var(--light-color);
+        }
+
+        .our-story h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 50px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 15px;
+            right: -10px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .timeline-date {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 0;
+            background-color: white;
+            text-align: center;
+        }
+
+        .gallery-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+        }
+
+        .gallery-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-slide.active {
+            opacity: 1;
+        }
+
+        .gallery-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background-color: white;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .gallery-nav:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-prev {
+            left: 20px;
+        }
+
+        .gallery-next {
+            right: 20px;
+        }
+
+        /* RSVP Section */
+        .rsvp-section {
+            padding: 100px 0;
+            background-color: var(--light-color);
+            text-align: center;
+        }
+
+        .rsvp-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+
+        .rsvp-section p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+
+        .rsvp-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #c09b7a;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Guests Stats Section */
+        .guests-section {
+            padding: 100px 0;
+            background-color: white;
+            text-align: center;
+        }
+
+        .guests-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            width: 200px;
+            padding: 30px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.3rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-item::after {
+                left: 21px;
+            }
+
+            .countdown-item {
+                width: 120px;
+            }
+        }
+
+        /* Loading spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Admin Mode */
+        .admin-section {
+            display: none;
+            padding: 100px 0;
+            background-color: var(--light-color);
+        }
+
+        .admin-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .admin-controls {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .guests-table {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .guests-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .guests-table th, .guests-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .guests-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .guests-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .guests-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .admin-login {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 100;
+        }
+
+        #admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .admin-modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <section class="timeline">
-    <div class="timeline-item"><div class="timeline-content"><h3>The First Meeting</h3></div></div>
-    <div class="timeline-item"><div class="timeline-content"><h3>First Date</h3></div></div>
-    <div class="timeline-item"><div class="timeline-content"><h3>Moving In Together</h3></div></div>
-    <div class="timeline-item"><div class="timeline-content"><h3>The Proposal</h3></div></div>
-  </section>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Alex & Jordan</h1>
+            <h2>ARE GETTING MARRIED</h2>
+            <div class="date">AUGUST 15, 2025</div>
+            <div class="location">Sunset Gardens • New York City</div>
+        </div>
+        <div class="scroll-down" id="scrollDown">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
 
-  <div id="story-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" id="close-story-modal">&times;</span>
-      <h3 id="story-title"></h3>
-      <div id="story-slideshow" class="gallery-slider"></div>
-      <p id="story-description"></p>
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="countdown">
+        <div class="container">
+            <h2>Counting Down to Our Big Day</h2>
+            <div class="countdown-container" id="countdownContainer">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <h2>Our Love Story</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>First Meeting</h3>
+                        <div class="timeline-date">June 12, 2020</div>
+                        <p>We met during a chance encounter at a local coffee shop. Jordan was reading a book that Alex had just finished.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>First Date</h3>
+                        <div class="timeline-date">June 19, 2020</div>
+                        <p>Our first date was at the botanical gardens. We spent hours talking and getting to know each other.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Moving In Together</h3>
+                        <div class="timeline-date">October 3, 2022</div>
+                        <p>After two wonderful years together, we decided to take the next step and move in together.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>The Proposal</h3>
+                        <div class="timeline-date">December 24, 2023</div>
+                        <p>Alex proposed during our winter vacation in the mountains. It was snowing and absolutely magical!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h2>Photo Gallery</h2>
+            <div class="gallery-container">
+                <div class="gallery-slide active" style="background-image: url('/api/placeholder/800/500')"></div>
+                <div class="gallery-slide" style="background-image: url('/api/placeholder/800/501')"></div>
+                <div class="gallery-slide" style="background-image: url('/api/placeholder/800/502')"></div>
+                <div class="gallery-slide" style="background-image: url('/api/placeholder/800/503')"></div>
+                <div class="gallery-slide" style="background-image: url('/api/placeholder/800/504')"></div>
+                <div class="gallery-controls">
+                    <div class="gallery-dot active" data-index="0"></div>
+                    <div class="gallery-dot" data-index="1"></div>
+                    <div class="gallery-dot" data-index="2"></div>
+                    <div class="gallery-dot" data-index="3"></div>
+                    <div class="gallery-dot" data-index="4"></div>
+                </div>
+                <div class="gallery-nav gallery-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="gallery-nav gallery-next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="rsvp-section" id="rsvp">
+        <div class="container">
+            <h2>RSVP</h2>
+            <p>We would be honored to have you join us on our special day. Please let us know if you can attend by July 15, 2025.</p>
+            <div class="rsvp-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <label>Will you be attending?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="attending-yes" name="attending" value="yes" checked>
+                            <label for="attending-yes">Yes, I'll be there!</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="attending-no" name="attending" value="no">
+                            <label for="attending-no">Sorry, can't make it</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="guests-group">
+                    <label for="guests">Number of Guests (including yourself)</label>
+                    <select id="guests" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (Optional)</label>
+                    <textarea id="message" class="form-control" rows="3" placeholder="Any dietary restrictions or special notes?"></textarea>
+                </div>
+                <button type="button" id="submit-rsvp" class="btn">Submit RSVP <span id="submit-loading" class="loading" style="display: none;"></span></button>
+                <div class="success-message" id="success-message">
+                    Thank you for your response! We've recorded your RSVP.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guests Stats Section -->
+    <section class="guests-section" id="guests">
+        <div class="container">
+            <h2>Guest List Stats</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="confirmed-count">0</div>
+                    <div class="stat-label">Attending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="declined-count">0</div>
+                    <div class="stat-label">Not Attending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pending-count">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-guests">0</div>
+                    <div class="stat-label">Total Guests</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section class="admin-section" id="admin">
+        <div class="container">
+            <h2>Admin Dashboard</h2>
+            <div class="admin-controls">
+                <button id="export-csv" class="btn">Export to CSV</button>
+                <button id="logout-btn" class="btn">Logout</button>
+            </div>
+            <div class="guests-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Guests</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guests-table-body">
+                        <!-- Guests will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Alex & Jordan</p>
+            <p>August 15, 2025 • Sunset Gardens, New York City</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Login Button and Modal -->
+    <div class="admin-login" id="admin-login">
+        <i class="fas fa-lock"></i>
     </div>
-  </div>
 
-  <div class="admin-dashboard">
-    <div class="stats-grid"></div>
-  </div>
+    <div id="admin-modal">
+        <div class="admin-modal-content">
+            <h3>Admin Login</h3>
+            <div class="form-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" class="form-control" placeholder="Enter password">
+            </div>
+            <button type="button" id="login-btn" class="btn">Login</button>
+        </div>
+        <div class="close-modal" id="close-modal">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const supabase = supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_KEY');
+    <script>
+        // Supabase Client Setup
+        const supabaseUrl = 'YOUR_SUPABASE_URL'; // Replace with your Supabase URL
+        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const timelineEvents = [
-      { title: 'The First Meeting', description: 'We met at a mutual friend\'s party.', images: ['/api/placeholder/600/400'] },
-      { title: 'First Date', description: 'Art gallery and rooftop dinner.', images: ['/api/placeholder/600/400'] },
-      { title: 'Moving In Together', description: 'We got our first apartment.', images: ['/api/placeholder/600/400'] },
-      { title: 'The Proposal', description: 'A snowy proposal under lights.', images: ['/api/placeholder/600/400'] }
-    ];
+        // Global variables
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.gallery-slide');
+        const dots = document.querySelectorAll('.gallery-dot');
+        const weddingDate = new Date('2025-08-15T16:00:00').getTime();
+        let isAdmin = false;
 
-    const storyModal = document.getElementById('story-modal');
-    const storyTitle = document.getElementById('story-title');
-    const storyDescription = document.getElementById('story-description');
-    const storySlideshow = document.getElementById('story-slideshow');
+        // DOM Elements
+        const countdownEl = {
+            days: document.getElementById('days'),
+            hours: document.getElementById('hours'),
+            minutes: document.getElementById('minutes'),
+            seconds: document.getElementById('seconds')
+        };
 
-    document.querySelectorAll('.timeline-item').forEach((item, index) => {
-      item.addEventListener('click', () => {
-        const event = timelineEvents[index];
-        storyTitle.textContent = event.title;
-        storyDescription.textContent = event.description;
-        storySlideshow.innerHTML = event.images.map(src => `<div class='gallery-item'><img src='${src}' alt='Story image'></div>`).join('');
-        $(storySlideshow).slick({ dots: true, arrows: true, infinite: true, speed: 500, slidesToShow: 1 });
-        storyModal.style.display = 'block';
-      });
-    });
+        const statsEl = {
+            confirmed: document.getElementById('confirmed-count'),
+            declined: document.getElementById('declined-count'),
+            pending: document.getElementById('pending-count'),
+            total: document.getElementById('total-guests')
+        };
 
-    document.getElementById('close-story-modal').addEventListener('click', () => {
-      storyModal.style.display = 'none';
-      $(storySlideshow).slick('unslick');
-    });
+        // Scroll down arrow functionality
+        document.getElementById('scrollDown').addEventListener('click', () => {
+            document.getElementById('countdown').scrollIntoView({ behavior: 'smooth' });
+        });
 
-    async function loadAdminDataWithChart() {
-      const { data, error } = await supabase.from('rsvps').select('*');
-      if (error) return console.error(error);
-      const attending = data.filter(d => d.attending).length;
-      const notAttending = data.length - attending;
-      const canvas = document.createElement('canvas');
-      canvas.id = 'rsvpChart';
-      document.querySelector('.stats-grid').appendChild(canvas);
-      new Chart(canvas, {
-        type: 'doughnut',
-        data: {
-          labels: ['Attending', 'Not Attending'],
-          datasets: [{
-            data: [attending, notAttending],
-            backgroundColor: ['#4CAF50', '#F44336'],
-            hoverOffset: 10
-          }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-      });
-    }
-    loadAdminDataWithChart();
-  </script>
+        // Update countdown timer
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Update the countdown display
+            countdownEl.days.textContent = days.toString().padStart(2, '0');
+            countdownEl.hours.textContent = hours.toString().padStart(2, '0');
+            countdownEl.minutes.textContent = minutes.toString().padStart(2, '0');
+            countdownEl.seconds.textContent = seconds.toString().padStart(2, '0');
+
+            // If the countdown is over
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownEl.days.textContent = '00';
+                countdownEl.hours.textContent = '00';
+                countdownEl.minutes.textContent = '00';
+                countdownEl.seconds.textContent = '00';
+            }
+        }
+
+        // Initialize countdown
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Gallery Slideshow functionality
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show the selected slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        // Set up gallery dot click events
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.getAttribute('data-index'));
+                showSlide(slideIndex);
+            });
+        });
+
+        // Gallery navigation buttons
+        document.querySelector('.gallery-prev').addEventListener('click', () => {
+            currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
+            showSlide(currentSlide);
+        });
+
+        document.querySelector('.gallery-next').addEventListener('click', () => {
+            currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+            showSlide(currentSlide);
+        });
+
+        // Auto-rotate gallery slides
+        setInterval(() => {
+            currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Handle radio button change for RSVP
+        document.querySelectorAll('input[name="attending"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const guestsGroup = document.getElementById('guests-group');
+                if (this.value === 'yes') {
+                    guestsGroup.style.display = 'block';
+                } else {
+                    guestsGroup.style.display = 'none';
+                }
+            });
+        });
+
+        // Function to load guest stats
+        async function loadGuestStats() {
+            try {
+                // Get counts from Supabase
+                const { data: confirmedData, error: confirmedError } = await supabase
+                    .from('rsvps')
+                    .select('guests')
+                    .eq('attending', 'yes');
+
+                const { data: declinedData, error: declinedError } = await supabase
+                    .from('rsvps')
+                    .select('count')
+                    .eq('attending', 'no');
+
+                const { data: totalData, error: totalError } = await supabase
+                    .from('rsvps')
+                    .select('*');
+
+                // Check for errors
+                if (confirmedError || declinedError || totalError) {
+                    console.error('Error fetching stats', confirmedError || declinedError || totalError);
+                    return;
+                }
+
+                // Calculate stats
+                let confirmedGuests = 0;
+                if (confirmedData) {
+                    confirmedGuests = confirmedData.reduce((sum, item) => sum + parseInt(item.guests || 0), 0);
+                }
+
+                const declinedCount = declinedData ? declinedData.length : 0;
+                const totalResponses = totalData ? totalData.length : 0;
+                const pendingCount = 100 - totalResponses; // Assuming 100 invited guests
+
+                // Update the stats display
+                statsEl.confirmed.textContent = confirmedGuests;
+                statsEl.declined.textContent = declinedCount;
+                statsEl.pending.textContent = pendingCount;
+                statsEl.total.textContent = confirmedGuests;
+
+            } catch (error) {
+                console.error('Error loading guest stats:', error);
+            }
+        }
+
+        // RSVP Form Submission
+        document.getElementById('submit-rsvp').addEventListener('click', async function() {
+            // Show loading indicator
+            const loadingIndicator = document.getElementById('submit-loading');
+            loadingIndicator.style.display = 'inline-block';
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const attending = document.querySelector('input[name="attending"]:checked').value;
+            const guests = attending === 'yes' ? document.getElementById('guests').value : 0;
+            const message = document.getElementById('message').value;
+
+            // Validate form
+            if (!name || !email) {
+                alert('Please fill in all required fields.');
+                loadingIndicator.style.display = 'none';
+                return;
+            }
+
+            try {
+                // Insert into Supabase
+                const { data, error } = await supabase
+                    .from('rsvps')
+                    .insert([
+                        { name, email, attending, guests, message, created_at: new Date() }
+                    ]);
+
+                if (error) {
+                    console.error('Error submitting RSVP:', error);
+                    alert('There was an error submitting your RSVP. Please try again.');
+                } else {
+                    // Show success message
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // Clear form
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('message').value = '';
+                    
+                    // Refresh stats
+                    loadGuestStats();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was an error submitting your RSVP. Please try again.');
+            }
+
+            // Hide loading indicator
+            loadingIndicator.style.display = 'none';
+        });
+
+        // Admin Modal Toggle
+        document.getElementById('admin-login').addEventListener('click', () => {
+            document.getElementById('admin-modal').style.display = 'flex';
+        });
+
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('admin-modal').style.display = 'none';
+        });
+
+        // Admin Login
+        document.getElementById('login-btn').addEventListener('click', async () => {
+            const password = document.getElementById('admin-password').value;
+            
+            // Simple password check (in production, use secure authentication)
+            if (password === 'wedding2025') {
+                // Show admin section
+                document.getElementById('admin').style.display = 'block';
+                document.getElementById('admin-modal').style.display = 'none';
+                
+                // Scroll to admin section
+                document.getElementById('admin').scrollIntoView({ behavior: 'smooth' });
+                
+                // Set admin flag
+                isAdmin = true;
+                
+                // Load guest list
+                loadGuestList();
+            } else {
+                alert('Incorrect password');
+            }
+        });
+
+        // Logout button
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            document.getElementById('admin').style.display = 'none';
+            isAdmin = false;
+            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Function to load guest list for admin
+        async function loadGuestList() {
+            if (!isAdmin) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('rsvps')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error fetching guest list:', error);
+                    return;
+                }
+
+                const tableBody = document.getElementById('guests-table-body');
+                tableBody.innerHTML = '';
+
+                if (data && data.length > 0) {
+                    data.forEach(guest => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${guest.name}</td>
+                            <td>${guest.email}</td>
+                            <td>${guest.attending === 'yes' ? 'Attending' : 'Not Attending'}</td>
+                            <td>${guest.guests}</td>
+                            <td>${guest.message || '-'}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="5">No RSVPs yet</td>';
+                    tableBody.appendChild(row);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Export to CSV functionality
+        document.getElementById('export-csv').addEventListener('click', async () => {
+            if (!isAdmin) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('rsvps')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error fetching data for export:', error);
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    // Convert data to CSV
+                    const headers = ['Name', 'Email', 'Attending', 'Guests', 'Message', 'Date'];
+                    let csvContent = headers.join(',') + '\n';
+
+                    data.forEach(guest => {
+                        const row = [
+                            `"${guest.name}"`,
+                            `"${guest.email}"`,
+                            `"${guest.attending === 'yes' ? 'Yes' : 'No'}"`,
+                            `"${guest.guests}"`,
+                            `"${(guest.message || '').replace(/"/g, '""')}"`,
+                            `"${new Date(guest.created_at).toLocaleDateString()}"`,
+                        ];
+                        csvContent += row.join(',') + '\n';
+                    });
+
+                    // Create download link
+                    const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+                    const link = document.createElement('a');
+                    link.setAttribute('href', encodedUri);
+                    link.setAttribute('download', `wedding_rsvps_${new Date().toISOString().split('T')[0]}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    alert('No data to export');
+                }
+            } catch (error) {
+                console.error('Error exporting data:', error);
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start the slideshow
+            showSlide(0);
+            
+            // Load guest stats
+            loadGuestStats();
+        });
+    </script>
 </body>
 </html>
