@@ -1010,6 +1010,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
+                 <li><a href="#" id="admin-link">Admin</a></li>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#countdown">Countdown</a></li>
                 <li><a href="#story">Our Story</a></li>
@@ -1347,6 +1348,17 @@
         const attendingRadioNo = document.getElementById('attending-no');
         const guestsGroup = document.getElementById('guests-group');
         const adminLoginModal = document.getElementById('admin-login-modal');
+        const adminLink = document.getElementById('admin-link');
+adminLink.addEventListener('click', e => {
+  e.preventDefault();               // stop the page from jumping
+  adminLoginModal.style.display = 'block';
+});
+adminLoginModal
+  .querySelector('.close-modal')
+  .addEventListener('click', () => {
+    adminLoginModal.style.display = 'none';
+  });
+
         const adminLoginForm = document.getElementById('admin-login-form');
         const adminDashboard = document.getElementById('admin-dashboard');
 
@@ -1664,7 +1676,8 @@ async function loadAdminData() {
         });
 
         // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+       document.querySelectorAll('a[href^="#"]:not(#admin-link)')
+.forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 
