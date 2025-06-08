@@ -897,7 +897,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             let rsvps = [];
             
             try {
-                if (supabase && SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+                if (supabase && SUPABASE_URL !== 'https://lylcyajjcatuorgjpxwn.supabase.co') {
                     const { data, error } = await supabase
                         .from('rsvps')
                         .select('*')
