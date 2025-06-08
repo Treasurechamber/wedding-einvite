@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23f8f9fa" width="1200" height="800"/><circle fill="%23e9ecef" cx="200" cy="200" r="100"/><circle fill="%23dee2e6" cx="800" cy="400" r="150"/><circle fill="%23ced4da" cx="1000" cy="150" r="80"/></svg>');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23f8f9fa" width="1200" height="800"/><circle fill="%23e9ecef" cx="200" cy="200" r="100"/><circle fill="%23dee2e6" cx="800" cy="400" r="150"/><circle fill="%23ced4da" cx="1000" cy="150" r="80"/></svg>');
             background-size: cover;
             background-position: center;
             color: white;
@@ -42,7 +43,7 @@
             font-size: 4rem;
             font-weight: 300;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             background: linear-gradient(45deg, #ffd700, #ffed4e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -68,7 +69,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 0;
@@ -123,7 +124,7 @@
             position: relative;
             overflow: hidden;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .slide {
@@ -144,7 +145,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
             color: white;
             padding: 3rem;
         }
@@ -234,7 +235,7 @@
             border-radius: 20px;
             font-weight: bold;
             color: #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             z-index: 2;
         }
 
@@ -242,7 +243,7 @@
             background: white;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
@@ -282,7 +283,7 @@
         }
 
         .countdown-item {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             padding: 2rem;
             border-radius: 15px;
@@ -316,7 +317,7 @@
             background: #f8f9fa;
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
@@ -378,7 +379,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             margin-top: 2rem;
         }
 
@@ -419,6 +420,7 @@
                 opacity: 0;
                 transform: translateY(50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -430,6 +432,7 @@
                 opacity: 0;
                 transform: scale(1.1);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -437,12 +440,19 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
                 transform: translateY(0) translateX(-50%);
             }
+
             40% {
                 transform: translateY(-10px) translateX(-50%);
             }
+
             60% {
                 transform: translateY(-5px) translateX(-50%);
             }
@@ -452,9 +462,11 @@
             0% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.05);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -523,7 +535,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             z-index: 2000;
             align-items: center;
@@ -538,7 +550,7 @@
             background: white;
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             max-width: 400px;
             width: 90%;
             text-align: center;
@@ -625,22 +637,27 @@
                 opacity: 0;
                 transform: translateY(-50px) scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
+
         @keyframes float {
             0% {
                 transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-100px) rotate(360deg);
                 opacity: 0;
@@ -648,6 +665,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Floating Hearts Background -->
     <div class="floating-hearts" id="floating-hearts"></div>
@@ -675,7 +693,7 @@
             <a href="#timeline" class="nav-link">Timeline</a>
             <a href="#countdown" class="nav-link">Countdown</a>
             <a href="#rsvp" class="nav-link">RSVP</a>
-           <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
         </div>
     </nav>
 
@@ -688,9 +706,9 @@
         </div>
         <div class="scroll-indicator">
             <svg width="30" height="50" viewBox="0 0 30 50" fill="none" stroke="white" stroke-width="2">
-                <rect x="5" y="5" width="20" height="40" rx="10" ry="10"/>
+                <rect x="5" y="5" width="20" height="40" rx="10" ry="10" />
                 <circle cx="15" cy="15" r="2" fill="white">
-                    <animate attributeName="cy" values="15;25;15" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="15;25;15" dur="2s" repeatCount="indefinite" />
                 </circle>
             </svg>
         </div>
@@ -701,22 +719,28 @@
         <div class="container">
             <h2 class="section-title">Our Love Story</h2>
             <div class="slider-container">
-                <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23ffeaa7%22 width=%22800%22 height=%22600%22/><circle fill=%22%23fdcb6e%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>First Date</text></svg>')">
+                <div class="slide active"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23ffeaa7%22 width=%22800%22 height=%22600%22/><circle fill=%22%23fdcb6e%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>First Date</text></svg>')">
                     <div class="slide-overlay">
                         <h3 class="slide-title">Our First Date</h3>
-                        <p class="slide-description">A magical evening at the botanical gardens where everything just clicked. We talked for hours under the stars.</p>
+                        <p class="slide-description">A magical evening at the botanical gardens where everything just
+                            clicked. We talked for hours under the stars.</p>
                     </div>
                 </div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23fab1a0%22 width=%22800%22 height=%22600%22/><circle fill=%22%23e17055%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>Adventure</text></svg>')">
+                <div class="slide"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23fab1a0%22 width=%22800%22 height=%22600%22/><circle fill=%22%23e17055%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>Adventure</text></svg>')">
                     <div class="slide-overlay">
                         <h3 class="slide-title">Adventure Together</h3>
-                        <p class="slide-description">Hiking through the mountains, discovering that we're perfect adventure partners in life.</p>
+                        <p class="slide-description">Hiking through the mountains, discovering that we're perfect
+                            adventure partners in life.</p>
                     </div>
                 </div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23fd79a8%22 width=%22800%22 height=%22600%22/><circle fill=%22%23e84393%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>Proposal</text></svg>')">
+                <div class="slide"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect fill=%22%23fd79a8%22 width=%22800%22 height=%22600%22/><circle fill=%22%23e84393%22 cx=%22400%22 cy=%22300%22 r=%22150%22/><text x=%22400%22 y=%22320%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2240%22 font-family=%22serif%22>Proposal</text></svg>')">
                     <div class="slide-overlay">
                         <h3 class="slide-title">The Proposal</h3>
-                        <p class="slide-description">On the beach at sunset, with tears of joy and a resounding "Yes!" that echoed across the waves.</p>
+                        <p class="slide-description">On the beach at sunset, with tears of joy and a resounding "Yes!"
+                            that echoed across the waves.</p>
                     </div>
                 </div>
             </div>
@@ -731,36 +755,44 @@
                 <div class="timeline-item">
                     <div class="timeline-date">May 2019</div>
                     <div class="timeline-content">
-                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23ffeaa7' width='400' height='200'/><circle fill='%23fdcb6e' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>We Met</text></svg>" alt="We Met" class="timeline-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23ffeaa7' width='400' height='200'/><circle fill='%23fdcb6e' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>We Met</text></svg>"
+                            alt="We Met" class="timeline-image">
                         <h3 class="timeline-title">We Met at Emma's Wedding</h3>
-                        <p class="timeline-description">Fate brought us together at our mutual friend's wedding. We spent the entire reception talking and laughing together.</p>
+                        <p class="timeline-description">Fate brought us together at our mutual friend's wedding. We
+                            spent the entire reception talking and laughing together.</p>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-date">August 2019</div>
                     <div class="timeline-content">
-                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23fab1a0' width='400' height='200'/><circle fill='%23e17055' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Official</text></svg>" alt="Official" class="timeline-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23fab1a0' width='400' height='200'/><circle fill='%23e17055' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Official</text></svg>"
+                            alt="Official" class="timeline-image">
                         <h3 class="timeline-title">Made It Official</h3>
-                        <p class="timeline-description">After months of dating, we decided to make it official during a romantic weekend getaway in the mountains.</p>
+                        <p class="timeline-description">After months of dating, we decided to make it official during a
+                            romantic weekend getaway in the mountains.</p>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-date">December 2021</div>
                     <div class="timeline-content">
-                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%2374b9ff' width='400' height='200'/><circle fill='%230984e3' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Moved In</text></svg>" alt="Moved In" class="timeline-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%2374b9ff' width='400' height='200'/><circle fill='%230984e3' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Moved In</text></svg>"
+                            alt="Moved In" class="timeline-image">
                         <h3 class="timeline-title">Moved In Together</h3>
-                        <p class="timeline-description">We found our perfect little apartment and took the big step of moving in together. Home is wherever we're together.</p>
+                        <p class="timeline-description">We found our perfect little apartment and took the big step of
+                            moving in together. Home is wherever we're together.</p>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-date">September 2024</div>
                     <div class="timeline-content">
-                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23fd79a8' width='400' height='200'/><circle fill='%23e84393' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Engaged</text></svg>" alt="Engaged" class="timeline-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect fill='%23fd79a8' width='400' height='200'/><circle fill='%23e84393' cx='200' cy='100' r='50'/><text x='200' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='serif'>Engaged</text></svg>"
+                            alt="Engaged" class="timeline-image">
                         <h3 class="timeline-title">The Proposal</h3>
-                        <p class="timeline-description">Michael surprised Sarah with the most beautiful proposal on the beach during sunset. It was absolutely perfect!</p>
+                        <p class="timeline-description">Michael surprised Sarah with the most beautiful proposal on the
+                            beach during sunset. It was absolutely perfect!</p>
                     </div>
                 </div>
             </div>
@@ -864,11 +896,30 @@
 
     <script>
         // Supabase Configuration
-const SUPABASE_URL = 'https://lylcyajicatuorgjpxwn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5bGN5YWpqY2F0dW9yZ2pweHduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzODcxNzIsImV4cCI6MjA2NDk2MzE3Mn0.f4FjKZdqpbNt9R4LDlAsCaXabj_1TKNnpGSPiZfDk6Q';
-        
+        const SUPABASE_URL = 'https://lylcyajicatuorgjpxwn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5bGN5YWpqY2F0dW9yZ2pweHduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzODcxNzIsImV4cCI6MjA2NDk2MzE3Mn0.f4FjKZdqpbNt9R4LDlAsCaXabj_1TKNnpGSPiZfDk6Q';
+
         // Initialize Supabase client
         const supabase = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Check if Supabase client is initialized
+        if (supabase) {
+            console.log('✅ Supabase client initialized successfully');
+        } else {
+            console.error('❌ Failed to initialize Supabase client');
+        }
+
+        // Example: Test connection by fetching a table (replace 'rsvp' with your table name)
+        async function testSupabaseConnection() {
+            const { data, error } = await supabase.from('rsvp').select('*').limit(1);
+            if (error) {
+                console.error('❌ Supabase connection or table error:', error);
+            } else {
+                console.log('✅ Supabase connection is active, sample data:', data);
+            }
+        }
+
+        testSupabaseConnection();
 
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -883,6 +934,18 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                 }
             });
         });
+
+        // Example: Sending a payload to Supabase (replace 'rsvp' and payload fields accordingly)
+        async function sendPayload(payload) {
+            console.log('📤 Sending payload to Supabase:', payload);
+            const { data, error } = await supabase.from('rsvp').insert([payload]);
+
+            if (error) {
+                console.error('❌ Failed to send payload:', error);
+            } else {
+                console.log('✅ Payload sent successfully:', data);
+            }
+        }
 
         // Photo slider functionality
         const slides = document.querySelectorAll('.slide');
@@ -902,7 +965,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             rootMargin: '0px 0px -100px 0px'
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -951,9 +1014,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
             heart.style.opacity = Math.random() * 0.5 + 0.1;
-            
+
             document.getElementById('floating-hearts').appendChild(heart);
-            
+
             setTimeout(() => {
                 heart.remove();
             }, 6000);
@@ -962,9 +1025,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         setInterval(createHeart, 800);
 
         // RSVP Form submission
-        document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+        document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const formData = {
                 name: document.getElementById('guestName').value,
                 email: document.getElementById('guestEmail').value,
@@ -990,12 +1053,12 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
                 // Store in localStorage as fallback
                 let rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
-                rsvps.push({...formData, id: Date.now()});
+                rsvps.push({ ...formData, id: Date.now() });
                 localStorage.setItem('wedding_rsvps', JSON.stringify(rsvps));
 
                 alert('Thank you for your RSVP! We can\'t wait to celebrate with you!');
                 document.getElementById('rsvpForm').reset();
-                
+
                 // Update dashboard if visible
                 if (document.getElementById('dashboard').classList.contains('active')) {
                     loadDashboard();
@@ -1009,7 +1072,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         // Dashboard functionality
         async function loadDashboard() {
             let rsvps = [];
-            
+
             try {
                 if (supabase) {
                     const { data, error } = await supabase
@@ -1082,16 +1145,16 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         }
 
         // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
-            
+
             // Set your credentials here
             const validUsername = "admin";
             const validPassword = "2025";
-            
+
             if (username === validUsername && password === validPassword) {
                 // Successful login
                 closeDashboardLogin();
@@ -1114,7 +1177,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         });
 
         // Close modal when clicking outside
-        document.getElementById('dashboardLogin').addEventListener('click', function(e) {
+        document.getElementById('dashboardLogin').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeDashboardLogin();
             }
@@ -1132,7 +1195,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         document.head.appendChild(shakeStyle);
 
         // Navbar background on scroll
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 navbar.style.background = 'rgba(255,255,255,0.98)';
@@ -1144,7 +1207,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         });
 
         // Initialize dashboard on page load
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Check if Supabase is properly configured
             if (!supabase || SUPABASE_URL === 'https://lylcyajjcatuorgjpxwn.supabase.co') {
                 console.warn('Supabase not configured. Using localStorage for data persistence.');
@@ -1155,16 +1218,16 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         function checkCountdownComplete() {
             const now = new Date().getTime();
             const distance = weddingDate.getTime() - now;
-            
+
             if (distance <= 0) {
                 // Wedding day special effects
                 document.body.style.background = 'linear-gradient(45deg, #ffd700, #ffed4e, #ffd700, #ffed4e)';
                 document.body.style.backgroundSize = '400% 400%';
                 document.body.style.animation = 'gradientShift 3s ease infinite';
-                
+
                 // Add confetti effect
                 createConfetti();
-                
+
                 // Show special message
                 setTimeout(() => {
                     alert('🎉 Congratulations Sarah & Michael! Today is your special day! 🎉');
@@ -1174,7 +1237,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
         function createConfetti() {
             const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
-            
+
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
@@ -1188,9 +1251,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                     confetti.style.pointerEvents = 'none';
                     confetti.style.zIndex = '9999';
                     confetti.style.animation = 'confettiFall 3s linear forwards';
-                    
+
                     document.body.appendChild(confetti);
-                    
+
                     setTimeout(() => confetti.remove(), 3000);
                 }, i * 100);
             }
@@ -1218,4 +1281,5 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         setInterval(checkCountdownComplete, 60000);
     </script>
 </body>
+
 </html>
