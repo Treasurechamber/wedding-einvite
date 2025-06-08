@@ -716,6 +716,7 @@
             <div class="header-actions">
                 <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh</button>
                 <button class="export-btn" onclick="exportToCSV()">📊 Export CSV</button>
+                <button class="refresh-btn" onclick="testDataConnection()">🔍 Debug</button>
                 <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             </div>
         </div>
@@ -895,9 +896,14 @@
             let rsvps = [];
             
             try {
-                // Load from localStorage (in a real app, this would be from a database)
+                // First try to load from localStorage
                 rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
-                console.log('Loaded RSVPs:', rsvps.length, 'records');
+                console.log('Loaded RSVPs from localStorage:', rsvps.length, 'records');
+                
+                // If no data in localStorage, try to get from URL parameters or other sources
+                if (rsvps.length === 0) {
+                    console.log('No data found in localStorage, using sample data');
+                }
             } catch (error) {
                 console.error('Error loading RSVPs:', error);
             }
@@ -1165,8 +1171,45 @@
             }
         }
 
+        // Test localStorage connection
+        function testDataConnection() {
+            console.log('=== TESTING DATA CONNECTION ===');
+            
+            // Check if localStorage is available
+            try {
+                const test = 'test';
+                localStorage.setItem('test', test);
+                localStorage.removeItem('test');
+                console.log('✅ localStorage is working');
+            } catch (e) {
+                console.error('❌ localStorage not available:', e);
+                return false;
+            }
+            
+            // Check for existing RSVP data
+            const existingData = localStorage.getItem('wedding_rsvps');
+            console.log('Raw localStorage data:', existingData);
+            
+            if (existingData) {
+                try {
+                    const parsed = JSON.parse(existingData);
+                    console.log('✅ Found', parsed.length, 'RSVPs in localStorage');
+                    console.log('Sample RSVP:', parsed[0]);
+                } catch (e) {
+                    console.error('❌ Error parsing RSVP data:', e);
+                }
+            } else {
+                console.log('❌ No RSVP data found in localStorage');
+            }
+            
+            return true;
+        }
+
         // Initialize dashboard on page load
         window.addEventListener('load', function() {
+            // Test data connection first
+            testDataConnection();
+            
             // Add sample data for testing (comment out in production)
             addSampleData();
             
