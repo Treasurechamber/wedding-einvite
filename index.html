@@ -500,6 +500,13 @@
         }
 
     </style>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  // Supabase configuration
+  const SUPABASE_URL = 'YOUR_PROJECT_URL_HERE';
+  const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
 </head>
 
 <body>
@@ -762,49 +769,55 @@
 
         setInterval(createHeart, 800);
 
-        // RSVP Form submission (using localStorage for demo)
-        document.getElementById('rsvpForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+       // RSVP Form submission (replace existing code)
+document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-            const submitBtn = document.querySelector('.submit-btn');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
+    const submitBtn = document.querySelector('.submit-btn');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
 
-            // Hide any existing messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
+    // Hide any existing messages
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
 
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
-            const formData = {
-                name: document.getElementById('guestName').value.trim(),
-                email: document.getElementById('guestEmail').value.trim(),
-                attendance: document.getElementById('attendance').value,
-                guest_count: parseInt(document.getElementById('guestCount').value),
-                dietary: document.getElementById('dietary').value.trim(),
-                message: document.getElementById('message').value.trim(),
-                created_at: new Date().toISOString()
-            };
+    const formData = {
+        name: document.getElementById('guestName').value.trim(),
+        email: document.getElementById('guestEmail').value.trim(),
+        attendance: document.getElementById('attendance').value,
+        guest_count: parseInt(document.getElementById('guestCount').value),
+        dietary: document.getElementById('dietary').value.trim(),
+        message: document.getElementById('message').value.trim()
+    };
 
-            try {
-                // Save to localStorage (in a real app, you'd send to a server)
-                let rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
-                rsvps.push({ ...formData, id: Date.now() });
-                localStorage.setItem('wedding_rsvps', JSON.stringify(rsvps));
+    try {
+        // Save to Supabase
+        const { data, error } = await supabase
+            .from('rsvps')
+            .insert([formData]);
 
-                // Show success message
-                successMessage.style.display = 'block';
-                document.getElementById('rsvpForm').reset();
+        if (error) throw error;
 
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.style.display = 'block';
-            } finally {
-                submitBtn.textContent = 'Send RSVP';
-                submitBtn.disabled = false;
-            }
-        });
+        // Show success message
+        successMessage.style.display = 'block';
+        document.getElementById('rsvpForm').reset();
+
+        // Also save to localStorage as backup
+        let rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
+        rsvps.push({ ...formData, id: Date.now(), created_at: new Date().toISOString() });
+        localStorage.setItem('wedding_rsvps', JSON.stringify(rsvps));
+
+    } catch (error) {
+        console.error('Error:', error);
+        errorMessage.style.display = 'block';
+    } finally {
+        submitBtn.textContent = 'Send RSVP';
+        submitBtn.disabled = false;
+    }
+});
 
         // Dashboard functionality
         function showDashboard() {
