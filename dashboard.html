@@ -34,6 +34,10 @@
             padding: 2rem;
             text-align: center;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .dashboard-title {
@@ -326,11 +330,15 @@
                 font-size: 2rem;
             }
 
-            .back-btn {
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .back-btn, .header-actions {
                 position: static;
                 transform: none;
-                margin-bottom: 1rem;
-                display: inline-block;
             }
 
             .section-header {
@@ -698,8 +706,10 @@
     <div class="dashboard-container" id="dashboardContainer" style="display: none;">
         <div class="dashboard-header">
             <a href="index.html" class="back-btn">← Back to Wedding</a>
-            <h1 class="dashboard-title">💕 Wedding Dashboard</h1>
-            <p class="dashboard-subtitle">Sarah & Michael - December 15, 2025</p>
+            <div class="header-center">
+                <h1 class="dashboard-title">💕 Wedding Dashboard</h1>
+                <p class="dashboard-subtitle">Sarah & Michael - December 15, 2025</p>
+            </div>
             <div class="header-actions">
                 <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh</button>
                 <button class="logout-btn" onclick="logout()">🚪 Logout</button>
@@ -771,7 +781,9 @@
         
         // Check if user is already logged in
         function checkAuth() {
+            console.log('Checking authentication...');
             const isLoggedIn = sessionStorage.getItem('dashboard_auth') === 'true';
+            console.log('Is logged in:', isLoggedIn);
             if (isLoggedIn) {
                 showDashboard();
             } else {
@@ -780,17 +792,20 @@
         }
 
         function showLogin() {
+            console.log('Showing login screen...');
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('dashboardContainer').style.display = 'none';
         }
 
         function showDashboard() {
+            console.log('Showing dashboard...');
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('dashboardContainer').style.display = 'block';
             loadDashboard();
         }
 
         function logout() {
+            console.log('Logging out...');
             sessionStorage.removeItem('dashboard_auth');
             showLogin();
             // Clear form
