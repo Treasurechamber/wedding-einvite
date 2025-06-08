@@ -499,25 +499,6 @@
             }
         }
 
-        /* Dashboard Button */
-        .dashboard-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-top: 2rem;
-        }
-
-        .dashboard-btn:hover {
-            background: white;
-            color: #667eea;
-        }
     </style>
 </head>
 
@@ -543,7 +524,6 @@
             <h1 class="couple-names">Sarah & Michael</h1>
             <p class="wedding-date">December 15, 2025</p>
             <p style="font-size: 1.2rem; opacity: 0.8;">Join us as we say "I Do"</p>
-            <a href="dashboard.html" class="dashboard-btn" target="_blank">View Dashboard</a>
         </div>
     </section>
 
@@ -816,9 +796,6 @@
                 // Show success message
                 successMessage.style.display = 'block';
                 document.getElementById('rsvpForm').reset();
-
-                // Update dashboard if visible
-                updateDashboard();
 
             } catch (error) {
                 console.error('Error:', error);
