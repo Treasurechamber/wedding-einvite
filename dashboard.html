@@ -348,7 +348,245 @@
             }
         }
 
-        .refresh-btn {
+        /* Login Styles */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: loginSlideIn 0.8s ease-out;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: iconPulse 2s infinite;
+        }
+
+        .login-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #667eea;
+            z-index: 2;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 1.2rem 1rem 1.2rem 3rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-text {
+            display: inline-block;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .login-btn.loading .btn-loader {
+            opacity: 1;
+        }
+
+        .login-error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            animation: errorShake 0.5s ease-out;
+        }
+
+        .login-error.show {
+            display: flex;
+        }
+
+        .error-icon {
+            font-size: 1.2rem;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        .login-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 60%;
+            animation-delay: 4s;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .refresh-btn, .logout-btn {
             background: rgba(255,255,255,0.2);
             border: 2px solid white;
             color: white;
@@ -356,22 +594,116 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-left: 1rem;
+            font-size: 0.9rem;
         }
 
-        .refresh-btn:hover {
+        .refresh-btn:hover, .logout-btn:hover {
             background: white;
             color: #667eea;
+        }
+
+        .logout-btn {
+            background: rgba(231, 76, 60, 0.8);
+            border-color: #e74c3c;
+        }
+
+        .logout-btn:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes loginSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">🔐</div>
+                <h1 class="login-title">Admin Access</h1>
+                <p class="login-subtitle">Enter your credentials to access the wedding dashboard</p>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <div class="input-icon">👤</div>
+                    <input type="text" class="login-input" id="loginUsername" placeholder="Username" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">🔒</div>
+                    <input type="password" class="login-input" id="loginPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <span class="btn-text">Access Dashboard</span>
+                    <div class="btn-loader" id="btnLoader">⏳</div>
+                </button>
+                
+                <div class="login-error" id="loginError">
+                    <div class="error-icon">❌</div>
+                    <span>Invalid credentials. Please try again.</span>
+                </div>
+            </form>
+            
+            <div class="login-footer">
+                <a href="index.html" class="back-link">← Back to Wedding Invitation</a>
+            </div>
+        </div>
+        
+        <div class="login-bg">
+            <div class="bg-shape shape-1"></div>
+            <div class="bg-shape shape-2"></div>
+            <div class="bg-shape shape-3"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard (hidden initially) -->
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
         <div class="dashboard-header">
             <a href="index.html" class="back-btn">← Back to Wedding</a>
             <h1 class="dashboard-title">💕 Wedding Dashboard</h1>
             <p class="dashboard-subtitle">Sarah & Michael - December 15, 2025</p>
-            <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh</button>
+            <div class="header-actions">
+                <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh</button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
         </div>
 
         <div class="dashboard-content">
@@ -432,6 +764,116 @@
         
         // Initialize Supabase client
         const supabase = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Authentication system
+        const ADMIN_USERNAME = "admin";
+        const ADMIN_PASSWORD = "SarahMichael2025";
+        
+        // Check if user is already logged in
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('dashboard_auth') === 'true';
+            if (isLoggedIn) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('dashboardContainer').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboardContainer').style.display = 'block';
+            loadDashboard();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('dashboard_auth');
+            showLogin();
+            // Clear form
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').classList.remove('show');
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleBtn = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.querySelector('.login-btn');
+            const errorDiv = document.getElementById('loginError');
+            
+            // Show loading state
+            loginBtn.classList.add('loading');
+            errorDiv.classList.remove('show');
+            
+            // Simulate authentication delay for better UX
+            setTimeout(() => {
+                if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                    // Successful login
+                    sessionStorage.setItem('dashboard_auth', 'true');
+                    loginBtn.classList.remove('loading');
+                    
+                    // Success animation
+                    loginBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                    loginBtn.querySelector('.btn-text').textContent = 'Access Granted! ✅';
+                    
+                    setTimeout(() => {
+                        showDashboard();
+                        // Reset button
+                        loginBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                        loginBtn.querySelector('.btn-text').textContent = 'Access Dashboard';
+                    }, 1000);
+                } else {
+                    // Failed login
+                    loginBtn.classList.remove('loading');
+                    errorDiv.classList.add('show');
+                    
+                    // Clear password field
+                    document.getElementById('loginPassword').value = '';
+                    
+                    // Shake animation
+                    const loginCard = document.querySelector('.login-card');
+                    loginCard.style.animation = 'none';
+                    setTimeout(() => {
+                        loginCard.style.animation = 'loginSlideIn 0.8s ease-out, errorShake 0.5s ease-out';
+                    }, 10);
+                    
+                    // Focus back to username if empty, otherwise password
+                    if (!username) {
+                        document.getElementById('loginUsername').focus();
+                    } else {
+                        document.getElementById('loginPassword').focus();
+                    }
+                }
+            }, 1500);
+        });
+
+        // Auto-hide error on input
+        document.getElementById('loginUsername').addEventListener('input', function() {
+            document.getElementById('loginError').classList.remove('show');
+        });
+
+        document.getElementById('loginPassword').addEventListener('input', function() {
+            document.getElementById('loginError').classList.remove('show');
+        });
 
         let allGuests = [];
         let currentFilter = 'all';
@@ -631,10 +1073,20 @@
         }
 
         // Initialize dashboard on page load
-        window.addEventListener('load', loadDashboard);
+        window.addEventListener('load', checkAuth);
 
-        // Auto-refresh every 30 seconds
-        setInterval(loadDashboard, 30000);
+        // Auto-refresh every 30 seconds (only if logged in)
+        setInterval(() => {
+            if (sessionStorage.getItem('dashboard_auth') === 'true') {
+                loadDashboard();
+            }
+        }, 30000);
+
+        // Logout on browser close/refresh (optional security measure)
+        window.addEventListener('beforeunload', function() {
+            // Uncomment the line below if you want to logout on page refresh
+            // sessionStorage.removeItem('dashboard_auth');
+        });
     </script>
 </body>
 </html>
