@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarah & Michael - Wedding Invitation</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase-js/2.39.0/supabase.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -54,14 +53,6 @@
             font-size: 1.5rem;
             margin-bottom: 2rem;
             opacity: 0.9;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
         }
 
         /* Navigation */
@@ -215,16 +206,6 @@
             opacity: 1;
             transform: translateY(0);
             transition: all 0.8s ease;
-        }
-
-        .timeline-item.animate-in {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .timeline-item:nth-child(odd) .timeline-content {
@@ -382,47 +363,25 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
 
-        /* Dashboard */
-        .dashboard {
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-weight: 500;
             display: none;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
         }
 
-        .dashboard.active {
-            display: block;
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-top: 0.5rem;
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         /* Animations */
@@ -447,25 +406,6 @@
             to {
                 opacity: 1;
                 transform: scale(1);
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0) translateX(-50%);
-            }
-
-            40% {
-                transform: translateY(-10px) translateX(-50%);
-            }
-
-            60% {
-                transform: translateY(-5px) translateX(-50%);
             }
         }
 
@@ -521,6 +461,7 @@
             }
         }
 
+        /* Floating Hearts */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -536,123 +477,6 @@
             color: rgba(255, 182, 193, 0.3);
             font-size: 20px;
             animation: float 6s infinite;
-        }
-
-        /* Dashboard Login */
-        .dashboard-login {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dashboard-login.active {
-            display: flex;
-        }
-
-        .login-modal {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: modalSlideIn 0.4s ease-out;
-        }
-
-        .login-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            transition: color 0.3s ease;
-        }
-
-        .login-close:hover {
-            color: #333;
-        }
-
-        .login-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .login-subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .login-input {
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .login-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .login-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .login-error {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
         }
 
         @keyframes float {
@@ -675,16 +499,24 @@
             }
         }
 
-        /* Timeline visibility animation */
-        .timeline-item {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
+        /* Dashboard Button */
+        .dashboard-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 2rem;
         }
 
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .dashboard-btn:hover {
+            background: white;
+            color: #667eea;
         }
     </style>
 </head>
@@ -692,21 +524,6 @@
 <body>
     <!-- Floating Hearts Background -->
     <div class="floating-hearts" id="floating-hearts"></div>
-
-    <!-- Dashboard Login Modal -->
-    <div class="dashboard-login" id="dashboardLogin">
-        <div class="login-modal">
-            <button class="login-close" onclick="closeDashboardLogin()">&times;</button>
-            <h2 class="login-title">💕 Dashboard Access</h2>
-            <p class="login-subtitle">Enter your credentials to view wedding statistics</p>
-            <form class="login-form" id="loginForm">
-                <input type="text" class="login-input" id="loginUsername" placeholder="👤 Username" required>
-                <input type="password" class="login-input" id="loginPassword" placeholder="🔒 Password" required>
-                <button type="submit" class="login-btn">Access Dashboard</button>
-                <div class="login-error" id="loginError">❌ Invalid credentials. Please try again.</div>
-            </form>
-        </div>
-    </div>
 
     <!-- Navigation -->
     <nav class="nav" id="navbar">
@@ -716,7 +533,6 @@
             <a href="#timeline" class="nav-link">Timeline</a>
             <a href="#countdown" class="nav-link">Countdown</a>
             <a href="#rsvp" class="nav-link">RSVP</a>
-            <a href="dashboard.html" class="nav-link">Dashboard</a>
         </div>
     </nav>
 
@@ -726,14 +542,7 @@
             <h1 class="couple-names">Sarah & Michael</h1>
             <p class="wedding-date">December 15, 2025</p>
             <p style="font-size: 1.2rem; opacity: 0.8;">Join us as we say "I Do"</p>
-        </div>
-        <div class="scroll-indicator">
-            <svg width="30" height="50" viewBox="0 0 30 50" fill="none" stroke="white" stroke-width="2">
-                <rect x="5" y="5" width="20" height="40" rx="10" ry="10" />
-                <circle cx="15" cy="15" r="2" fill="white">
-                    <animate attributeName="cy" values="15;25;15" dur="2s" repeatCount="indefinite" />
-                </circle>
-            </svg>
+            <a href="#dashboard" class="dashboard-btn" onclick="showDashboard()">View Dashboard</a>
         </div>
     </section>
 
@@ -886,81 +695,40 @@
                     <textarea class="form-input" id="message" rows="4" placeholder="Optional"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Send RSVP</button>
+                <div class="status-message status-success" id="successMessage">
+                    Thank you for your RSVP! We can't wait to celebrate with you!
+                </div>
+                <div class="status-message status-error" id="errorMessage">
+                    There was an error submitting your RSVP. Please try again.
+                </div>
             </form>
         </div>
     </section>
 
-    <!-- Dashboard -->
-    <div class="dashboard" id="dashboard">
-        <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">Wedding Dashboard</h2>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-number" id="totalGuests">0</span>
-                <span class="stat-label">Total RSVPs</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="attendingGuests">0</span>
-                <span class="stat-label">Attending</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="notAttendingGuests">0</span>
-                <span class="stat-label">Not Attending</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="totalPeople">0</span>
-                <span class="stat-label">Total People</span>
+    <!-- Simple Dashboard Display -->
+    <section id="dashboard" style="display: none; padding: 5rem 0; background: white;">
+        <div class="container">
+            <h2 class="section-title">Wedding Dashboard</h2>
+            <div style="max-width: 800px; margin: 0 auto; background: #f8f9fa; padding: 2rem; border-radius: 20px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;" id="totalRSVPs">0</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">Total RSVPs</div>
+                    </div>
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;" id="attending">0</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">Attending</div>
+                    </div>
+                </div>
+                <div id="guestList" style="max-height: 400px; overflow-y: auto;"></div>
+                <button onclick="hideDashboard()" style="margin-top: 1rem; background: #6c757d; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">Close Dashboard</button>
             </div>
         </div>
-        <div id="guestList" style="background: #f8f9fa; padding: 2rem; border-radius: 15px;">
-            <h3 style="margin-bottom: 1rem; color: #333;">Guest List</h3>
-            <div id="guests"></div>
-        </div>
-    </div>
+    </section>
 
     <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'https://lylcyajicatuorgjpxwn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5bGN5YWpqY2F0dW9yZ2pweHduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzODcxNzIsImV4cCI6MjA2NDk2MzE3Mn0.f4FjKZdqpbNt9R4LDlAsCaXabj_1TKNnpGSPiZfDk6Q';
-
-        // Initialize Supabase client
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Check if Supabase client is initialized
-        if (supabaseClient) {
-            console.log('✅ Supabase client initialized successfully');
-        } else {
-            console.error('❌ Failed to initialize Supabase client');
-        }
-
-        // Test connection by fetching from the rsvps table
-        async function testSupabaseConnection() {
-            try {
-                const { data, error } = await supabaseClient.from('rsvps').select('*').limit(1);
-                if (error) {
-                    console.error('❌ Supabase connection or table error:', error);
-                } else {
-                    console.log('✅ Supabase connection is active, sample data:', data);
-                }
-            } catch (err) {
-                console.error('❌ Connection test failed:', err);
-            }
-        }
-
-        // Example: Sending a payload to Supabase
-        async function sendPayload(payload) {
-            console.log('📤 Sending payload to Supabase:', payload);
-            const { data, error } = await supabaseClient.from('rsvps').insert([payload]);
-
-            if (error) {
-                console.error('❌ Failed to send payload:', error);
-            } else {
-                console.log('✅ Payload sent successfully:', data);
-            }
-        }
-
-        // Test Supabase connection on load
-        testSupabaseConnection();
-
+        // Simple working version - no external dependencies
+        
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -975,18 +743,6 @@
             });
         });
 
-        // Example: Sending a payload to Supabase
-        async function sendPayload(payload) {
-            console.log('📤 Sending payload to Supabase:', payload);
-            const { data, error } = await supabaseClient.from('rsvps').insert([payload]);
-
-            if (error) {
-                console.error('❌ Failed to send payload:', error);
-            } else {
-                console.log('✅ Payload sent successfully:', data);
-            }
-        }
-
         // Photo slider functionality
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
@@ -999,101 +755,34 @@
 
         setInterval(showNextSlide, 5000);
 
-        // SIMPLE WORKING VERSION - NO MORE COMPLEXITY!
-        
-        // Wait for everything to load
-        window.addEventListener('load', function() {
-            console.log('=== STARTING SIMPLE VERSION ===');
-            
-            // COUNTDOWN - Super simple version
-            function startCountdown() {
-                const wedding = new Date('2025-12-15T16:00:00');
-                
-                function update() {
-                    const now = new Date();
-                    const diff = wedding - now;
-                    
-                    if (diff < 0) {
-                        document.getElementById('days').textContent = '00';
-                        document.getElementById('hours').textContent = '00';
-                        document.getElementById('minutes').textContent = '00';
-                        document.getElementById('seconds').textContent = '00';
-                        return;
-                    }
-                    
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    document.getElementById('days').textContent = String(days).padStart(2, '0');
-                    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-                    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-                }
-                
-                update(); // Run once immediately
-                setInterval(update, 1000); // Then every second
-                console.log('✅ Countdown started');
+        // Countdown functionality
+        function updateCountdown() {
+            const weddingDate = new Date('2025-12-15T16:00:00');
+            const now = new Date();
+            const diff = weddingDate - now;
+
+            if (diff < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
             }
-            
-            // TIMELINE - Super simple version
-            function startTimeline() {
-                const items = document.querySelectorAll('.timeline-item');
-                console.log('Found', items.length, 'timeline items');
-                
-                // Add animate-in class to all items first
-                items.forEach(item => item.classList.add('animate-in'));
-                
-                // Simple scroll check
-                function checkScroll() {
-                    items.forEach((item, i) => {
-                        const rect = item.getBoundingClientRect();
-                        if (rect.top < window.innerHeight * 0.8) {
-                            setTimeout(() => {
-                                item.classList.remove('animate-in');
-                                item.classList.add('visible');
-                            }, i * 300);
-                        }
-                    });
-                }
-                
-                window.addEventListener('scroll', checkScroll);
-                checkScroll(); // Check immediately
-                
-                // Fallback - show all after 2 seconds
-                setTimeout(() => {
-                    items.forEach(item => {
-                        item.classList.remove('animate-in');
-                        item.classList.add('visible');
-                    });
-                }, 2000);
-                
-                console.log('✅ Timeline started');
-            }
-            
-            // PHOTO SLIDER - Super simple
-            function startSlider() {
-                const slides = document.querySelectorAll('.slide');
-                if (slides.length === 0) return;
-                
-                let current = 0;
-                setInterval(() => {
-                    slides[current].classList.remove('active');
-                    current = (current + 1) % slides.length;
-                    slides[current].classList.add('active');
-                }, 5000);
-                
-                console.log('✅ Slider started');
-            }
-            
-            // Start everything
-            startCountdown();
-            startTimeline();
-            startSlider();
-            
-            console.log('=== ALL FEATURES STARTED ===');
-        });
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Start countdown
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
 
         // Floating hearts animation
         function createHeart() {
@@ -1113,11 +802,18 @@
 
         setInterval(createHeart, 800);
 
-        // RSVP Form submission
-        document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
+        // RSVP Form submission (using localStorage for demo)
+        document.getElementById('rsvpForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const submitBtn = document.querySelector('.submit-btn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hide any existing messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
@@ -1131,33 +827,22 @@
                 created_at: new Date().toISOString()
             };
 
-            console.log('Submitting RSVP:', formData);
-
             try {
-                if (supabaseClient) {
-                    const { data, error } = await supabaseClient
-                        .from('rsvps')
-                        .insert([formData]);
-
-                    if (error) {
-                        console.error('Supabase error:', error);
-                        throw error;
-                    }
-                    console.log('✅ Saved to Supabase successfully');
-                }
-
-                // Backup to localStorage
+                // Save to localStorage (in a real app, you'd send to a server)
                 let rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
                 rsvps.push({ ...formData, id: Date.now() });
                 localStorage.setItem('wedding_rsvps', JSON.stringify(rsvps));
 
-                alert('Thank you for your RSVP! We can\'t wait to celebrate with you!');
+                // Show success message
+                successMessage.style.display = 'block';
                 document.getElementById('rsvpForm').reset();
 
+                // Update dashboard if visible
+                updateDashboard();
+
             } catch (error) {
-                console.error('❌ Error:', error);
-                alert('Thank you for your RSVP! (Saved locally)');
-                document.getElementById('rsvpForm').reset();
+                console.error('Error:', error);
+                errorMessage.style.display = 'block';
             } finally {
                 submitBtn.textContent = 'Send RSVP';
                 submitBtn.disabled = false;
@@ -1165,42 +850,31 @@
         });
 
         // Dashboard functionality
-        async function loadDashboard() {
-            let rsvps = [];
-
-            try {
-                if (supabaseClient) {
-                    const { data, error } = await supabaseClient
-                        .from('rsvps')
-                        .select('*')
-                        .order('created_at', { ascending: false });
-
-                    if (!error && data) {
-                        rsvps = data;
-                    }
-                }
-            } catch (error) {
-                console.error('Error fetching from Supabase:', error);
+        function showDashboard() {
+            const password = prompt('Enter dashboard password:');
+            if (password === 'admin2025') {
+                document.getElementById('dashboard').style.display = 'block';
+                updateDashboard();
+                document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            } else if (password !== null) {
+                alert('Incorrect password');
             }
+        }
 
-            // Fallback to localStorage
-            if (rsvps.length === 0) {
-                rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
-            }
+        function hideDashboard() {
+            document.getElementById('dashboard').style.display = 'none';
+        }
 
+        function updateDashboard() {
+            const rsvps = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
+            
             // Calculate statistics
-            const totalGuests = rsvps.length;
-            const attendingGuests = rsvps.filter(rsvp => rsvp.attendance === 'yes').length;
-            const notAttendingGuests = rsvps.filter(rsvp => rsvp.attendance === 'no').length;
-            const totalPeople = rsvps.reduce((sum, rsvp) => {
-                return rsvp.attendance === 'yes' ? sum + (rsvp.guest_count || 1) : sum;
-            }, 0);
+            const totalRSVPs = rsvps.length;
+            const attending = rsvps.filter(rsvp => rsvp.attendance === 'yes').length;
 
-            // Update dashboard stats
-            document.getElementById('totalGuests').textContent = totalGuests;
-            document.getElementById('attendingGuests').textContent = attendingGuests;
-            document.getElementById('notAttendingGuests').textContent = notAttendingGuests;
-            document.getElementById('totalPeople').textContent = totalPeople;
+            // Update stats
+            document.getElementById('totalRSVPs').textContent = totalRSVPs;
+            document.getElementById('attending').textContent = attending;
 
             // Display guest list
             const guestListHtml = rsvps.map(rsvp => `
@@ -1212,135 +886,76 @@
                         </span>
                     </div>
                     <div style="color: #666; font-size: 0.9rem;">
-                        <div>Email: ${rsvp.email}</div>
-                        ${rsvp.attendance === 'yes' ? `<div>Guests: ${rsvp.guest_count || 1}</div>` : ''}
-                        ${rsvp.dietary ? `<div>Dietary: ${rsvp.dietary}</div>` : ''}
-                        ${rsvp.message ? `<div>Message: "${rsvp.message}"</div>` : ''}
+                        <div>📧 ${rsvp.email}</div>
+                        ${rsvp.attendance === 'yes' ? `<div>👥 ${rsvp.guest_count || 1} guest(s)</div>` : ''}
+                        ${rsvp.dietary ? `<div>🍽️ Dietary: ${rsvp.dietary}</div>` : ''}
+                        ${rsvp.message ? `<div>💌 "${rsvp.message}"</div>` : ''}
                     </div>
                     <div style="color: #999; font-size: 0.8rem; margin-top: 0.5rem;">
-                        ${new Date(rsvp.created_at).toLocaleDateString()}
+                        📅 ${new Date(rsvp.created_at).toLocaleDateString()}
                     </div>
                 </div>
             `).join('');
 
-            document.getElementById('guests').innerHTML = guestListHtml || '<p style="color: #666; text-align: center;">No RSVPs yet.</p>';
+            document.getElementById('guestList').innerHTML = guestListHtml || '<p style="color: #666; text-align: center; padding: 2rem;">No RSVPs yet.</p>';
         }
 
-        function toggleDashboard() {
-            const loginModal = document.getElementById('dashboardLogin');
-            loginModal.classList.add('active');
+        // Timeline animation on scroll
+        function animateTimelineOnScroll() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkScroll() {
+                timelineItems.forEach((item, index) => {
+                    const rect = item.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight * 0.8;
+                    
+                    if (isVisible) {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, index * 300);
+                    }
+                });
+            }
+            
+            // Set initial state
+            timelineItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(50px)';
+                item.style.transition = 'all 0.8s ease';
+            });
+            
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); // Check on load
         }
 
-        function closeDashboardLogin() {
-            const loginModal = document.getElementById('dashboardLogin');
-            loginModal.classList.remove('active');
-            // Clear form
-            document.getElementById('loginForm').reset();
-            document.getElementById('loginError').style.display = 'none';
-        }
-
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            // Set your credentials here
-            const validUsername = "admin";
-            const validPassword = "2025";
-
-            if (username === validUsername && password === validPassword) {
-                // Successful login
-                closeDashboardLogin();
-                const dashboard = document.getElementById('dashboard');
-                dashboard.classList.add('active');
-                loadDashboard();
-                dashboard.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                // Show error
-                document.getElementById('loginError').style.display = 'block';
-                // Clear password field
-                document.getElementById('loginPassword').value = '';
-                // Shake animation for error feedback
-                const modal = document.querySelector('.login-modal');
-                modal.style.animation = 'none';
-                setTimeout(() => {
-                    modal.style.animation = 'modalSlideIn 0.4s ease-out, shake 0.5s ease-out';
-                }, 10);
-            }
+        // Initialize everything when page loads
+        window.addEventListener('load', function() {
+            console.log('Wedding website loaded successfully!');
+            animateTimelineOnScroll();
+            updateDashboard(); // Load any existing RSVPs
         });
 
-        // Close modal when clicking outside
-        document.getElementById('dashboardLogin').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeDashboardLogin();
-            }
-        });
-
-        // Add shake animation for login errors
-        const shakeStyle = document.createElement('style');
-        shakeStyle.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-5px); }
-                75% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(shakeStyle);
-
-        // Initialize dashboard on page load
-        window.addEventListener('load', function () {
-            // Check if Supabase is properly configured
-            if (!supabaseClient || SUPABASE_URL === 'https://lylcyajjcatuorgjpxwn.supabase.co') {
-                console.warn('Supabase not configured. Using localStorage for data persistence.');
-            }
-        });
-
-        // Special effects when countdown reaches zero
-        function checkCountdownComplete() {
-            const now = new Date().getTime();
-            const distance = weddingDate.getTime() - now;
-
-            if (distance <= 0) {
-                // Wedding day special effects
+        // Special effects for wedding day
+        function checkWeddingDay() {
+            const now = new Date();
+            const weddingDate = new Date('2025-12-15');
+            
+            if (now.toDateString() === weddingDate.toDateString()) {
+                // It's the wedding day!
                 document.body.style.background = 'linear-gradient(45deg, #ffd700, #ffed4e, #ffd700, #ffed4e)';
                 document.body.style.backgroundSize = '400% 400%';
                 document.body.style.animation = 'gradientShift 3s ease infinite';
-
-                // Add confetti effect
-                createConfetti();
-
-                // Show special message
+                
+                // Add special wedding day message
                 setTimeout(() => {
-                    alert('🎉 Congratulations Sarah & Michael! Today is your special day! 🎉');
-                }, 1000);
+                    alert('🎉 It\'s Sarah & Michael\'s Wedding Day! 🎉');
+                }, 2000);
             }
         }
 
-        function createConfetti() {
-            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
-
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.top = '-10px';
-                    confetti.style.width = '10px';
-                    confetti.style.height = '10px';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.borderRadius = '50%';
-                    confetti.style.pointerEvents = 'none';
-                    confetti.style.zIndex = '9999';
-                    confetti.style.animation = 'confettiFall 3s linear forwards';
-
-                    document.body.appendChild(confetti);
-
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 100);
-            }
-        }
+        // Check for wedding day
+        checkWeddingDay();
 
         // Add CSS for special effects
         const style = document.createElement('style');
@@ -1350,18 +965,8 @@
                 50% { background-position: 100% 50%; }
                 100% { background-position: 0% 50%; }
             }
-            
-            @keyframes confettiFall {
-                to {
-                    transform: translateY(100vh) rotate(720deg);
-                    opacity: 0;
-                }
-            }
         `;
         document.head.appendChild(style);
-
-        // Check for wedding day every minute
-        setInterval(checkCountdownComplete, 60000);
     </script>
 </body>
 
