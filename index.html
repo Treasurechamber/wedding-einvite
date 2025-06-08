@@ -940,11 +940,23 @@
 
         function toggleDashboard() {
             const dashboard = document.getElementById('dashboard');
-            dashboard.classList.toggle('active');
             
+            // If dashboard is already open, just close it
             if (dashboard.classList.contains('active')) {
+                dashboard.classList.remove('active');
+                return;
+            }
+            
+            // Password protection for dashboard access
+            const password = prompt("🔒 Enter dashboard password to view wedding statistics:");
+            
+            // Change this password to whatever you want
+            if (password === "SarahMichael2025") {
+                dashboard.classList.add('active');
                 loadDashboard();
                 dashboard.scrollIntoView({ behavior: 'smooth' });
+            } else if (password !== null) { // null means user cancelled
+                alert("❌ Incorrect password. Please contact the couple for access.");
             }
         }
 
